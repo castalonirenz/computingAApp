@@ -27,24 +27,6 @@ export default function HomeScreen() {
     }
   };
 
-  // function getFrequency(arr) {
-  //   arr.sort((a, b) => a - b);
-  //   let frequency = {};
-  //   arr.forEach((value) => {
-  //     frequency[value] = (frequency[value] || 0) + 1;
-  //   });
-
-  //   let minKey = arr[0];
-  //   let maxKey = arr[arr.length - 1];
-
-  //   for (let i = minKey; i <= maxKey; i++) {
-  //     if (frequency[i] === undefined) {
-  //       frequency[i] = 0;
-  //     }
-  //   }
-  //   console.log(frequency, "--> check")
-  //   return frequency;
-  // }
 
   function getFrequency(arr) {
     arr.sort((a, b) => a - b);
@@ -64,93 +46,172 @@ export default function HomeScreen() {
       }
     }
 
-    // Calculate percentages
+    // Calculate percentages and filter out keys with zero count
+    let result = {};
     for (let key in frequency) {
-      frequency[key] = {
-        count: frequency[key],
-        percentage: ((frequency[key] / totalCount) * 100).toFixed(2) + '%'
-      };
+      if (frequency[key] !== 0) {
+        result[key] = {
+          count: frequency[key],
+          percentage: ((frequency[key] / totalCount) * 100).toFixed(2) + '%'
+        };
+      }
     }
 
-    console.log(frequency); // Optional: Check the result in console
-    return frequency;
+    console.log(result); // Optional: Check the result in console
+    return result;
   }
 
 
+
   return (
-    <View style={styles.parentContainer}>
-      <View>
-        <Text>Please enter a number</Text>
-        <TextInput
-          value={inputOne}
-          keyboardType='numeric'
-          onChangeText={(v) => setInputOne(v)}
-          style={styles.textInputContainer}
-        />
-        <Button onPress={enterInput} style={{ marginTop: 20 }}>
-          Enter
-        </Button>
+   <ScrollView>
+      <View style={styles.parentContainer}>
+        <View>
+          <Text>Please enter a number</Text>
+          <TextInput
+            value={inputOne}
+            placeholder='Group 1'
+            keyboardType='numeric'
+            onChangeText={(v) => setInputOne(v)}
+            style={styles.textInputContainer}
+          />
+          <Button onPress={enterInput} style={{ marginTop: 20 }}>
+            Enter
+          </Button>
 
-        <ScrollView scrollEnabled style={{ marginTop: 20, flexGrow: 1, minHeight: 300, maxHeight: 300}}>
-          <View style={styles.row}>
-            <View style={styles.column}>
-              <View style={styles.rowItem}>
-                <Text>Range</Text>
-              </View>
-              {Object.entries(getFrequency(arrOne)).map(([key, value], index) => (
-                <View style={styles.rowItem} key={index}>
-                  <Text>{key}</Text>
+          <ScrollView scrollEnabled style={{ marginTop: 20, flexGrow: 1, minHeight: 300, maxHeight: 300 }}>
+            <View style={styles.row}>
+              <View style={styles.column}>
+                <View style={styles.rowItem}>
+                  <Text>Range</Text>
                 </View>
-              ))}
+                {Object.entries(getFrequency(arrOne)).map(([key, value], index) => (
+                  <View style={styles.rowItem} key={index}>
+                    <Text>{key}</Text>
+                  </View>
+                ))}
 
-            </View>
-
-            <View style={styles.column}>
-              <View style={styles.rowItem}>
-                <Text>Frequency</Text>
-                <Text>Group 1</Text>
-              </View>
-              {Object.entries(getFrequency(arrOne)).map(([key, value], index) => (
-                <View style={styles.rowItem} key={index}>
-                  <Text>{value.count}</Text>
+                <View style={styles.rowItem}>
+                  <Text>Total</Text>
                 </View>
-              ))}
 
-            </View>
 
-            <View style={styles.column}>
-              <View style={styles.rowItem}>
-                <Text>Percentage</Text>
-                <Text>Group 1</Text>
               </View>
-              {Object.entries(getFrequency(arrOne)).map(([key, value], index) => (
-                <View style={styles.rowItem} key={index}>
-                  <Text>{value.percentage}</Text>
-                </View>
-              ))}
 
+              <View style={styles.column}>
+                <View style={styles.rowItem}>
+                  <Text>Frequency</Text>
+                  <Text>Group 1</Text>
+                </View>
+                {Object.entries(getFrequency(arrOne)).map(([key, value], index) => (
+                  <View style={styles.rowItem} key={index}>
+                    <Text>{value.count}</Text>
+                  </View>
+                ))}
+
+                <View style={styles.rowItem}>
+                  <Text>{Object.entries(getFrequency(arrOne)).length}</Text>
+                </View>
+             
+              </View>
+
+              <View style={styles.column}>
+                <View style={styles.rowItem}>
+                  <Text>Percentage</Text>
+                  <Text>Group 1</Text>
+                </View>
+                {Object.entries(getFrequency(arrOne)).map(([key, value], index) => (
+                  <View style={styles.rowItem} key={index}>
+                    <Text>{value.percentage}</Text>
+                  </View>
+                ))}
+
+                <View style={styles.rowItem}>
+                  <Text>{Object.entries(getFrequency(arrOne)).length}</Text>
+                </View>
+
+
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+
+        </View>
+
+
+        <View>
+          <Text>Please enter a number</Text>
+          <TextInput
+            placeholder='Group 2'
+            value={inputTwo}
+            keyboardType='numeric'
+            onChangeText={(v) => setInputTwo(v)}
+            style={styles.textInputContainer}
+          />
+          <Button onPress={enterInputTwo} style={{ marginTop: 20 }}>
+            Enter
+          </Button>
+
+          <ScrollView scrollEnabled style={{ marginTop: 20, flexGrow: 1, minHeight: 300, maxHeight: 300 }}>
+            <View style={styles.row}>
+              <View style={styles.column}>
+                <View style={styles.rowItem}>
+                  <Text>Range</Text>
+                </View>
+                {Object.entries(getFrequency(arrTwo)).map(([key, value], index) => (
+                  <View style={styles.rowItem} key={index}>
+                    <Text>{key}</Text>
+                  </View>
+                ))}
+
+                <View style={styles.rowItem}>
+                  <Text>Total</Text>
+                </View>
+
+              </View>
+
+              <View style={styles.column}>
+                <View style={styles.rowItem}>
+                  <Text>Frequency</Text>
+                  <Text>Group 2</Text>
+                </View>
+                {Object.entries(getFrequency(arrTwo)).map(([key, value], index) => (
+                  <View style={styles.rowItem} key={index}>
+                    <Text>{value.count}</Text>
+                  </View>
+                ))}
+
+                <View style={styles.rowItem}>
+                  <Text>{Object.entries(getFrequency(arrTwo)).length}</Text>
+                </View>
+                
+
+
+              </View>
+
+              <View style={styles.column}>
+                <View style={styles.rowItem}>
+                  <Text>Percentage</Text>
+                  <Text>Group 2</Text>
+                </View>
+                {Object.entries(getFrequency(arrTwo)).map(([key, value], index) => (
+                  <View style={styles.rowItem} key={index}>
+                    <Text>{value.percentage}</Text>
+                  </View>
+                ))}
+
+                <View style={styles.rowItem}>
+                  <Text>{Object.entries(getFrequency(arrTwo)).length}</Text>
+                </View>
+
+
+              </View>
+            </View>
+          </ScrollView>
+        </View>
+
 
       </View>
-
-    
-      <View>
-        <Text>Please enter a number</Text>
-        <TextInput
-          value={inputTwo}
-          keyboardType='numeric'
-          onChangeText={(v) => setInputTwo(v)}
-          style={styles.textInputContainer}
-        />
-        <Button onPress={enterInputTwo} style={{ marginTop: 20 }}>
-          Enter
-        </Button>
-      </View>
-
-
-    </View>
+   </ScrollView>
   );
 }
 
@@ -170,7 +231,9 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "100%"
   },
-  column: {},
+  column: {
+    width: "33.33%"
+  },
   rowItem: {
     height: 50,
     padding: 15,
