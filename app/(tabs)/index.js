@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
 import { Button } from '@rneui/themed';
 
@@ -8,11 +8,16 @@ export default function HomeScreen() {
   const [arrTwo, setArrTwo] = useState([]);
   const [inputOne, setInputOne] = useState('');
   const [inputTwo, setInputTwo] = useState('');
-
+  const [onePercentage, setOnePercentage] = useState(0)
+  const [twoPercentage, setTwoPercentage] = useState(0)
+  let hahaa = 0
   const enterInput = () => {
     if (inputOne !== '') {
       const updatedArr = [...arrOne, inputOne];
       setArrOne(updatedArr);
+
+      
+      setOnePercentage(getFrequency(arrOne).sum + "%")
       setInputOne('');
 
 
@@ -24,8 +29,13 @@ export default function HomeScreen() {
       const updatedArr = [...arrTwo, inputTwo];
       setArrTwo(updatedArr);
       setInputTwo('');
+      setTwoPercentage(getFrequency(arrTwo).sum + "%")
     }
   };
+
+  useEffect(() => {
+
+  }, [])
 
 
   function getFrequency(arr) {
@@ -48,17 +58,31 @@ export default function HomeScreen() {
 
     // Calculate percentages and filter out keys with zero count
     let result = {};
+    let sumOfPercentages = 0;
     for (let key in frequency) {
       if (frequency[key] !== 0) {
+        let percentage = ((frequency[key] / totalCount) * 100).toFixed(2) + '%';
         result[key] = {
           count: frequency[key],
-          percentage: ((frequency[key] / totalCount) * 100).toFixed(2) + '%'
+          percentage: percentage,
         };
+        sumOfPercentages += parseFloat(percentage); // Add percentage to sumOfPercentages
       }
     }
 
-    console.log(result); // Optional: Check the result in console
-    return result;
+   
+    let final = {
+        result:result,
+        sum:sumOfPercentages
+    }
+
+
+    //  // Optional: Check the result in console
+
+     // Optional: Check the result in console
+
+
+    return final;
   }
 
 
@@ -85,7 +109,7 @@ export default function HomeScreen() {
                 <View style={styles.rowItem}>
                   <Text>Range</Text>
                 </View>
-                {Object.entries(getFrequency(arrOne)).map(([key, value], index) => (
+                {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
                   <View style={styles.rowItem} key={index}>
                     <Text>{key}</Text>
                   </View>
@@ -103,14 +127,14 @@ export default function HomeScreen() {
                   <Text>Frequency</Text>
                   <Text>Group 1</Text>
                 </View>
-                {Object.entries(getFrequency(arrOne)).map(([key, value], index) => (
+                {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
                   <View style={styles.rowItem} key={index}>
                     <Text>{value.count}</Text>
                   </View>
                 ))}
 
                 <View style={styles.rowItem}>
-                  <Text>{Object.entries(getFrequency(arrOne)).length}</Text>
+                  <Text>{Object.entries(getFrequency(arrOne).result).length}</Text>
                 </View>
              
               </View>
@@ -120,14 +144,14 @@ export default function HomeScreen() {
                   <Text>Percentage</Text>
                   <Text>Group 1</Text>
                 </View>
-                {Object.entries(getFrequency(arrOne)).map(([key, value], index) => (
+                {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
                   <View style={styles.rowItem} key={index}>
                     <Text>{value.percentage}</Text>
                   </View>
                 ))}
 
                 <View style={styles.rowItem}>
-                  <Text>{Object.entries(getFrequency(arrOne)).length}</Text>
+                  <Text>{onePercentage}</Text>
                 </View>
 
 
@@ -157,7 +181,7 @@ export default function HomeScreen() {
                 <View style={styles.rowItem}>
                   <Text>Range</Text>
                 </View>
-                {Object.entries(getFrequency(arrTwo)).map(([key, value], index) => (
+                {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                   <View style={styles.rowItem} key={index}>
                     <Text>{key}</Text>
                   </View>
@@ -174,7 +198,7 @@ export default function HomeScreen() {
                   <Text>Frequency</Text>
                   <Text>Group 2</Text>
                 </View>
-                {Object.entries(getFrequency(arrTwo)).map(([key, value], index) => (
+                {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                   <View style={styles.rowItem} key={index}>
                     <Text>{value.count}</Text>
                   </View>
@@ -193,14 +217,14 @@ export default function HomeScreen() {
                   <Text>Percentage</Text>
                   <Text>Group 2</Text>
                 </View>
-                {Object.entries(getFrequency(arrTwo)).map(([key, value], index) => (
+                {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                   <View style={styles.rowItem} key={index}>
                     <Text>{value.percentage}</Text>
                   </View>
                 ))}
 
                 <View style={styles.rowItem}>
-                  <Text>{Object.entries(getFrequency(arrTwo)).length}</Text>
+                  <Text>{twoPercentage}</Text>
                 </View>
 
 
