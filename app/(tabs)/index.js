@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, Modal } from 'react-native';
 import { Button } from '@rneui/themed';
 
 export default function HomeScreen() {
@@ -10,19 +10,29 @@ export default function HomeScreen() {
   const [inputTwo, setInputTwo] = useState('');
   const [onePercentage, setOnePercentage] = useState(0)
   const [twoPercentage, setTwoPercentage] = useState(0)
+  const [showModal, setShowModal] = useState(false);
+
   let hahaa = 0
+
   const enterInput = () => {
     if (inputOne !== '') {
       const updatedArr = [...arrOne, inputOne];
       setArrOne(updatedArr);
 
-      
+
       setOnePercentage(getFrequency(arrOne).sum + "%")
       setInputOne('');
 
 
     }
   };
+
+  const reset = () => {
+    setArrOne([])
+    setArrTwo([])
+    setOnePercentage(0)
+    setTwoPercentage(0)
+  }
 
   const enterInputTwo = () => {
     if (inputTwo !== '') {
@@ -32,6 +42,10 @@ export default function HomeScreen() {
       setTwoPercentage(getFrequency(arrTwo).sum + "%")
     }
   };
+
+  const computeNow = () => {
+    setShowModal(true)
+  }
 
   useEffect(() => {
 
@@ -70,16 +84,16 @@ export default function HomeScreen() {
       }
     }
 
-   
+
     let final = {
-        result:result,
-        sum:sumOfPercentages
+      result: result,
+      sum: sumOfPercentages
     }
 
 
     //  // Optional: Check the result in console
 
-     // Optional: Check the result in console
+    // Optional: Check the result in console
 
 
     return final;
@@ -88,9 +102,163 @@ export default function HomeScreen() {
 
 
   return (
-   <ScrollView>
+    <ScrollView>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showModal}
+        onRequestClose={() => {
+
+        }}>
+
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        
+            <View style={[styles.shadowContainer, { backgroundColor: "#ffff", flex: 1,maxHeight: "80%", width: "80%" }]}>
+
+            <View style={{padding: 20}}>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>Result</Text>
+            </View>
+                <ScrollView style={{flex: 1}}>
+              <View style={{ padding: 20 }}>
+               
+
+
+              {/* Group 1 */}
+                <Text style={{ fontWeight: "bold", }}>Group 1</Text>
+                <View  style={{ marginTop: 20}}>
+                  <View style={styles.row}>
+                    <View style={styles.column}>
+                      <View style={styles.rowItem}>
+                        <Text>Range</Text>
+                      </View>
+                      {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
+                        <View style={styles.rowItem} key={index}>
+                          <Text>{key}</Text>
+                        </View>
+                      ))}
+
+                      <View style={styles.rowItem}>
+                        <Text>Total</Text>
+                      </View>
+
+
+                    </View>
+
+                    <View style={styles.column}>
+                      <View style={styles.rowItem}>
+                        <Text>Frequency</Text>
+                        <Text>Group 1</Text>
+                      </View>
+                      {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
+                        <View style={styles.rowItem} key={index}>
+                          <Text>{value.count}</Text>
+                        </View>
+                      ))}
+
+                      <View style={styles.rowItem}>
+                        <Text>{Object.entries(getFrequency(arrOne).result).length}</Text>
+                      </View>
+
+                    </View>
+
+                    <View style={styles.column}>
+                      <View style={styles.rowItem}>
+                        <Text>Percentage</Text>
+                        <Text>Group 1</Text>
+                      </View>
+                      {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
+                        <View style={styles.rowItem} key={index}>
+                          <Text>{value.percentage}</Text>
+                        </View>
+                      ))}
+
+                      <View style={styles.rowItem}>
+                        <Text>{onePercentage}</Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                {/* Group 1 */}
+
+                
+                {/* Group 2 */}
+                <Text style={{ fontWeight: "bold", marginTop: 20}}>Group 2</Text>
+                <View scrollEnabled style={{ marginTop: 20, }}>
+                  <View style={styles.row}>
+                    <View style={styles.column}>
+                      <View style={styles.rowItem}>
+                        <Text>Range</Text>
+                      </View>
+                      {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
+                        <View style={styles.rowItem} key={index}>
+                          <Text>{key}</Text>
+                        </View>
+                      ))}
+
+                      <View style={styles.rowItem}>
+                        <Text>Total</Text>
+                      </View>
+
+                    </View>
+
+                    <View style={styles.column}>
+                      <View style={styles.rowItem}>
+                        <Text>Frequency</Text>
+                        <Text>Group 2</Text>
+                      </View>
+                      {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
+                        <View style={styles.rowItem} key={index}>
+                          <Text>{value.count}</Text>
+                        </View>
+                      ))}
+
+                      <View style={styles.rowItem}>
+                        <Text>{Object.entries(getFrequency(arrTwo).result).length}</Text>
+                      </View>
+
+
+
+                    </View>
+
+                    <View style={styles.column}>
+                      <View style={styles.rowItem}>
+                        <Text>Percentage</Text>
+                        <Text>Group 2</Text>
+                      </View>
+                      {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
+                        <View style={styles.rowItem} key={index}>
+                          <Text>{value.percentage}</Text>
+                        </View>
+                      ))}
+
+                      <View style={styles.rowItem}>
+                        <Text>{twoPercentage}</Text>
+                      </View>
+
+
+                    </View>
+                  </View>
+                </View>
+
+                {/* Group 2 */}
+
+               
+              </View>
+            </ScrollView>
+            <View>
+              <Button onPress={() => setShowModal(false)}>
+                Close
+              </Button>
+            </View>
+            </View>
+         
+        </View>
+      </Modal>
+
+
       <View style={styles.parentContainer}>
-        <View>
+        <View >
           <Text>Please enter a number</Text>
           <TextInput
             value={inputOne}
@@ -99,70 +267,23 @@ export default function HomeScreen() {
             onChangeText={(v) => setInputOne(v)}
             style={styles.textInputContainer}
           />
-          <Button onPress={enterInput} style={{ marginTop: 20 }}>
-            Enter
-          </Button>
+          <View style={{ marginTop: 30 }}>
+            <Button onPress={enterInput}>
+              Enter
+            </Button>
+          </View>
 
-          <ScrollView scrollEnabled style={{ marginTop: 20, flexGrow: 1, minHeight: 300, maxHeight: 300 }}>
-            <View style={styles.row}>
-              <View style={styles.column}>
-                <View style={styles.rowItem}>
-                  <Text>Range</Text>
-                </View>
-                {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                  <View style={styles.rowItem} key={index}>
-                    <Text>{key}</Text>
+          {/* LIST */}
+          <View style={[ styles.shadowContainer,{ marginTop: 10, backgroundColor:"#FFF8E1", padding: 20, flexDirection:"row"}]}>
+                      {arrOne.map((i, k) => (
+                        <Text style={{  }}>{k >= 1 ? "," + i  : i }</Text>
+                      ))}
                   </View>
-                ))}
-
-                <View style={styles.rowItem}>
-                  <Text>Total</Text>
-                </View>
-
-
-              </View>
-
-              <View style={styles.column}>
-                <View style={styles.rowItem}>
-                  <Text>Frequency</Text>
-                  <Text>Group 1</Text>
-                </View>
-                {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                  <View style={styles.rowItem} key={index}>
-                    <Text>{value.count}</Text>
-                  </View>
-                ))}
-
-                <View style={styles.rowItem}>
-                  <Text>{Object.entries(getFrequency(arrOne).result).length}</Text>
-                </View>
-             
-              </View>
-
-              <View style={styles.column}>
-                <View style={styles.rowItem}>
-                  <Text>Percentage</Text>
-                  <Text>Group 1</Text>
-                </View>
-                {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                  <View style={styles.rowItem} key={index}>
-                    <Text>{value.percentage}</Text>
-                  </View>
-                ))}
-
-                <View style={styles.rowItem}>
-                  <Text>{onePercentage}</Text>
-                </View>
-
-
-              </View>
-            </View>
-          </ScrollView>
-
+          {/* LIST */}
         </View>
 
 
-        <View>
+        <View style={{ flex: 1, marginTop: 50 }}>
           <Text>Please enter a number</Text>
           <TextInput
             placeholder='Group 2'
@@ -171,71 +292,45 @@ export default function HomeScreen() {
             onChangeText={(v) => setInputTwo(v)}
             style={styles.textInputContainer}
           />
-          <Button onPress={enterInputTwo} style={{ marginTop: 20 }}>
-            Enter
-          </Button>
+          <View style={{ marginTop: 30 }}>
+            <Button onPress={enterInputTwo}>
+              Enter
+            </Button>
+          </View>
 
-          <ScrollView scrollEnabled style={{ marginTop: 20, flexGrow: 1, minHeight: 300, maxHeight: 300 }}>
-            <View style={styles.row}>
-              <View style={styles.column}>
-                <View style={styles.rowItem}>
-                  <Text>Range</Text>
-                </View>
-                {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                  <View style={styles.rowItem} key={index}>
-                    <Text>{key}</Text>
-                  </View>
-                ))}
+          {/* LIST */}
+          <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFF8E1", padding: 20, flexDirection: "row" }]}>
+            {arrTwo.map((i, k) => (
+              <Text style={{}}>{k >= 1 ? "," + i : i}</Text>
+            ))}
+          </View>
+          {/* LIST */}
+      
 
-                <View style={styles.rowItem}>
-                  <Text>Total</Text>
-                </View>
-
-              </View>
-
-              <View style={styles.column}>
-                <View style={styles.rowItem}>
-                  <Text>Frequency</Text>
-                  <Text>Group 2</Text>
-                </View>
-                {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                  <View style={styles.rowItem} key={index}>
-                    <Text>{value.count}</Text>
-                  </View>
-                ))}
-
-                <View style={styles.rowItem}>
-                  <Text>{Object.entries(getFrequency(arrTwo)).length}</Text>
-                </View>
-                
-
-
-              </View>
-
-              <View style={styles.column}>
-                <View style={styles.rowItem}>
-                  <Text>Percentage</Text>
-                  <Text>Group 2</Text>
-                </View>
-                {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                  <View style={styles.rowItem} key={index}>
-                    <Text>{value.percentage}</Text>
-                  </View>
-                ))}
-
-                <View style={styles.rowItem}>
-                  <Text>{twoPercentage}</Text>
-                </View>
-
-
-              </View>
-            </View>
-          </ScrollView>
         </View>
 
 
+        {/* Compute button */}
+
+        <View style={{marginTop: 20}}>
+          <Button onPress={() => setShowModal(true)}>
+            Compute now
+          </Button>
+
+          <View style={{ marginTop: 10 }}>
+            <Button type="clear" color={"error"} onPress={() => reset()}>
+              <Text style={{color: "red", fontSize: 15}}>Reset</Text>
+            </Button>
+
+          </View>
+
+          
+        </View>
+          
+          {/* Compute button */}
+
       </View>
-   </ScrollView>
+    </ScrollView>
   );
 }
 
@@ -266,7 +361,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   parentContainer: {
-    // flex: 1,
-    // padding: 20,
+    flex: 1,
+    padding: 20,
   },
+  shadowContainer: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, // This is for Android to show the shadow
+    borderRadius: 5
+  },
+
 });
