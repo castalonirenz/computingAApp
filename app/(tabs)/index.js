@@ -1,383 +1,69 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet, Modal } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { Button } from '@rneui/themed';
 import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
+import { Link } from 'expo-router';
+import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function HomeScreen() {
-  const [arrOne, setArrOne] = useState([]);
-  const [arrTwo, setArrTwo] = useState([]);
-  const [inputOne, setInputOne] = useState('');
-  const [inputTwo, setInputTwo] = useState('');
-  const [onePercentage, setOnePercentage] = useState(0)
-  const [twoPercentage, setTwoPercentage] = useState(0)
-  const [showModal, setShowModal] = useState(false);
-  
-  const [pieOne, setPieOne] = useState([{value: 0}])
-  const [pieTwo, setPieTwo] = useState([{ value: 0 }])
 
-  
-
-  const enterInput = () => {
-    if (inputOne !== '') {
-      const updatedArr = [...arrOne, inputOne];
-      setArrOne(updatedArr);
-
-
-      setOnePercentage(getFrequency(arrOne).sum + "%")
-      setInputOne('');
-
-
-    }
-  };
-
-  const reset = () => {
-    setArrOne([])
-    setArrTwo([])
-    setOnePercentage(0)
-    setTwoPercentage(0)
-  }
-
-  const enterInputTwo = () => {
-    if (inputTwo !== '') {
-      const updatedArr = [...arrTwo, inputTwo];
-      setArrTwo(updatedArr);
-      setInputTwo('');
-      setTwoPercentage(getFrequency(arrTwo).sum + "%")
-    }
-  };
-
-  const computeNow = () => {
-   
-
-    let a = []
-  
-
-  
-    Object.entries(getFrequency(arrOne).result).map(([key, value], index) => {
-      
-      a.push(value.item)
-    })
-    setPieOne(a)
-
-    Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => {
-
-      a.push(value.item)
-    })
-    setPieTwo(a)
-  
-    setShowModal(true)
-
-  }
-
-  useEffect(() => {
-
-  }, [])
-
-
-  function getFrequency(arr) {
-    arr.sort((a, b) => a - b);
-    let frequency = {};
-    let totalCount = arr.length;
-
-    arr.forEach((value) => {
-      frequency[value] = (frequency[value] || 0) + 1;
-    });
-
-    let minKey = arr[0];
-    let maxKey = arr[arr.length - 1];
-
-    for (let i = minKey; i <= maxKey; i++) {
-      if (frequency[i] === undefined) {
-        frequency[i] = 0;
-      }
-    }
-
-    // Calculate percentages and filter out keys with zero count
-    let result = {};
-    let sumOfPercentages = 0;
-    for (let key in frequency) {
-      if (frequency[key] !== 0) {
-        let percentage = ((frequency[key] / totalCount) * 100).toFixed(2) + '%';
-        result[key] = {
-          count: frequency[key],
-          percentage: percentage,
-          item: {
-            value: ((frequency[key] / totalCount) * 100),
-            text:  `${((frequency[key] / totalCount) * 100).toFixed(2)+ '%'}`
-          }
-        };
-        sumOfPercentages += parseFloat(percentage); // Add percentage to sumOfPercentages
-      }
-    }
-
-
-    let final = {
-      result: result,
-      sum: sumOfPercentages
-    }
-
-
-    //  // Optional: Check the result in console
-
-    // Optional: Check the result in console
-
-
-    return final;
-  }
 
 
 
   return (
-    <ScrollView>
 
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showModal}
-        onRequestClose={() => {
+    <LinearGradient
+      // Button Linear Gradient
+      colors={['#C8E6C9', 'white', "#C8E6C9"]}
+      style={styles.parentContainer}>
 
-        }}>
-
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        
-            <View style={[styles.shadowContainer, { backgroundColor: "#ffff", flex: 1,maxHeight: "80%", width: "80%" }]}>
-
-            <View style={{padding: 20}}>
-              <Text style={{ fontWeight: "bold", fontSize: 20 }}>Result</Text>
-            </View>
-                <ScrollView style={{flex: 1}}>
-              <View style={{ padding: 20 }}>
-               
-
-
-              {/* Group 1 */}
-                <Text style={{ fontWeight: "bold", }}>Group 1</Text>
-                <View  style={{ marginTop: 20}}>
-                  <View style={styles.row}>
-                    <View style={styles.column}>
-                      <View style={styles.rowItem}>
-                        <Text>Range</Text>
-                      </View>
-                      {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                        <View style={styles.rowItem} key={index}>
-                          <Text>{key}</Text>
-                        </View>
-                      ))}
-
-                      <View style={styles.rowItem}>
-                        <Text>Total</Text>
-                      </View>
-
-
-                    </View>
-
-                    <View style={styles.column}>
-                      <View style={styles.rowItem}>
-                        <Text>Frequency</Text>
-                        <Text>Group 1</Text>
-                      </View>
-                      {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                        <View style={styles.rowItem} key={index}>
-                          <Text>{value.count}</Text>
-                        </View>
-                      ))}
-
-                      <View style={styles.rowItem}>
-                        <Text>{Object.entries(getFrequency(arrOne).result).length}</Text>
-                      </View>
-
-                    </View>
-
-                    <View style={styles.column}>
-                      <View style={styles.rowItem}>
-                        <Text>Percentage</Text>
-                        <Text>Group 1</Text>
-                      </View>
-                      {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                        <View style={styles.rowItem} key={index}>
-                          <Text>{value.percentage}</Text>
-                        </View>
-                      ))}
-
-                      <View style={styles.rowItem}>
-                        <Text>{onePercentage}</Text>
-                      </View>
-                    </View>
-                  </View>
-
-
-                  {/* Pie grap group 1 */}
-                  <PieChart
-                    showText
-                    textSize={10}
-                    labelsPosition='mid'
-                    showValuesAsLabels
-                    data={pieOne}
-                  />
-                  {/* Pie graph group 1 */}
-
-                </View>
-                {/* Group 1 */}
-
-                
-                {/* Group 2 */}
-                <Text style={{ fontWeight: "bold", marginTop: 20}}>Group 2</Text>
-                <View scrollEnabled style={{ marginTop: 20, }}>
-                  <View style={styles.row}>
-                    <View style={styles.column}>
-                      <View style={styles.rowItem}>
-                        <Text>Range</Text>
-                      </View>
-                      {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                        <View style={styles.rowItem} key={index}>
-                          <Text>{key}</Text>
-                        </View>
-                      ))}
-
-                      <View style={styles.rowItem}>
-                        <Text>Total</Text>
-                      </View>
-
-                    </View>
-
-                    <View style={styles.column}>
-                      <View style={styles.rowItem}>
-                        <Text>Frequency</Text>
-                        <Text>Group 2</Text>
-                      </View>
-                      {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                        <View style={styles.rowItem} key={index}>
-                          <Text>{value.count}</Text>
-                        </View>
-                      ))}
-
-                      <View style={styles.rowItem}>
-                        <Text>{Object.entries(getFrequency(arrTwo).result).length}</Text>
-                      </View>
+      <ScrollView style={{ flex: 1, padding: 20}}>
 
 
 
-                    </View>
-
-                    <View style={styles.column}>
-                      <View style={styles.rowItem}>
-                        <Text>Percentage</Text>
-                        <Text>Group 2</Text>
-                      </View>
-                      {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                        <View style={styles.rowItem} key={index}>
-                          <Text>{value.percentage}</Text>
-                        </View>
-                      ))}
-
-                      <View style={styles.rowItem}>
-                        <Text>{twoPercentage}</Text>
-                      </View>
-
-
-                    </View>
-                  </View>
-
-                  <PieChart
-                    showText
-                    textSize={10}
-                    labelsPosition='mid'
-                    showValuesAsLabels
-                    data={pieTwo}
-                  />
-                </View>
-
-                {/* Group 2 */}
-
-               
-              </View>
-            </ScrollView>
-            <View>
-              <Button onPress={() => setShowModal(false)}>
-                Close
-              </Button>
-            </View>
-            </View>
-         
-        </View>
-      </Modal>
-
-
-      <View style={styles.parentContainer}>
-        <View >
-          <Text>Please enter a number</Text>
-          <TextInput
-            value={inputOne}
-            placeholder='Group 1'
-            keyboardType='numeric'
-            onChangeText={(v) => setInputOne(v)}
-            style={styles.textInputContainer}
-          />
-          <View style={{ marginTop: 30 }}>
-            <Button onPress={enterInput}>
-              Enter
-            </Button>
-          </View>
-
-          {/* LIST */}
-          <View style={[ styles.shadowContainer,{ marginTop: 10, backgroundColor:"#FFF8E1", padding: 20, flexDirection:"row"}]}>
-                      {arrOne.map((i, k) => (
-                        <Text style={{  }}>{k >= 1 ? "," + i  : i }</Text>
-                      ))}
-                  </View>
-          {/* LIST */}
+        <View>
+          <Text style={{ color: "green", fontWeight: "bold", fontSize: 18 }}>
+            Institute of Food Science and Technology
+          </Text>
         </View>
 
+        <View style={{ backgroundColor: "green", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
+          <Text style={{ color: "#FFFF" }}>
+            CONSUMER ACCEPTABILITY
+            OF BAKERY PRODUCTS WITH KAONG SWEETENER
 
-        <View style={{ flex: 1, marginTop: 50 }}>
-          <Text>Please enter a number</Text>
-          <TextInput
-            placeholder='Group 2'
-            value={inputTwo}
-            keyboardType='numeric'
-            onChangeText={(v) => setInputTwo(v)}
-            style={styles.textInputContainer}
-          />
-          <View style={{ marginTop: 30 }}>
-            <Button onPress={enterInputTwo}>
-              Enter
-            </Button>
-          </View>
-
-          {/* LIST */}
-          <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFF8E1", padding: 20, flexDirection: "row" }]}>
-            {arrTwo.map((i, k) => (
-              <Text style={{}}>{k >= 1 ? "," + i : i}</Text>
-            ))}
-          </View>
-          {/* LIST */}
-      
-
+          </Text>
         </View>
-
-
-        {/* Compute button */}
 
         <View style={{marginTop: 20}}>
-          <Button onPress={() => computeNow()}>
-            Compute now
-          </Button>
+          <TouchableOpacity onPress={() => router.navigate('/compute')} style={[styles.buttonContainer]}>
 
-          <View style={{ marginTop: 10 }}>
-            <Button type="clear" color={"error"} onPress={() => reset()}>
-              <Text style={{color: "red", fontSize: 15}}>Reset</Text>
-            </Button>
+            <Text>
+              Compute
+            </Text>
+          </TouchableOpacity>
 
-          </View>
-
-          
         </View>
-          
-          {/* Compute button */}
+
+      <View style={{flex: 1, alignItems:"center", justifyContent:"center", marginTop: 20}}>
+
+          <Text style={styles.text}>Kaong Sugar is an all-natural sweetener alternative.</Text>
+          <Text style={styles.text}>It is highly nutritious and has a low glycemic index, making it ideal for diabetics and dieters.</Text>
+          <Text style={styles.text}>It is made using the newly gathered sap that comes from the kaong plant, which grows along rivers and streams in Upland.</Text>
 
       </View>
-    </ScrollView>
+
+    
+
+      </ScrollView>
+      <View style={{ backgroundColor: "green", padding: 10,alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
+        <Text style={{ color: "#FFFF" }}>
+          BACHELOR OF FOOD SCIENCE AND TECHNOLOGY
+        </Text>
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -408,8 +94,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   parentContainer: {
-    flex: 1,
-    padding: 20,
+    flexGrow: 1,
+    
   },
   shadowContainer: {
     shadowColor: '#000',
@@ -422,5 +108,18 @@ const styles = StyleSheet.create({
     elevation: 5, // This is for Android to show the shadow
     borderRadius: 5
   },
+  buttonContainer:{
+    flex: 1, 
+    alignItems: "center", 
+    justifyContent: "center", 
+    padding: 20, 
+    backgroundColor: "white",
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: "green"
+  },
+  text:{
+
+  }
 
 });
