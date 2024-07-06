@@ -1,8 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet, Modal } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, Modal, TouchableOpacity, Image } from 'react-native';
 import { Button } from '@rneui/themed';
 import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
+import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ComputeScreen() {
     const [arrOne, setArrOne] = useState([]);
@@ -147,104 +149,130 @@ export default function ComputeScreen() {
 
 
     return (
-        <ScrollView>
+        <SafeAreaView style={{flex: 1}}>
 
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={showModal}
-                onRequestClose={() => {
+            <View style={{ backgroundColor: "green", alignItems: "center", padding: 20, flexDirection: "row" }}>
 
-                }}>
-
-                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-
-                    <View style={[styles.shadowContainer, { backgroundColor: "#ffff", flex: 1, maxHeight: "80%", width: "80%" }]}>
-
-                        <View style={{ padding: 20 }}>
-                            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Result</Text>
-                        </View>
-                        <ScrollView style={{ flex: 1 }}>
-                            <View style={{ padding: 20 }}>
+                <Image
+                    resizeMode="contain"
+                    style={{ height: 100, width: 100 }}
+                    source={require('../../assets/images/csu-logo.png')} />
 
 
+                <View style={{ marginLeft: 10 }}>
+                    <Text style={{ color: "#FFFF" }}>
+                        Cavite State University
+                    </Text>
+                    <Text style={{ color: "#FFFF" }}>
+                        College of Agriculture, Food,
+                    </Text>
+                    <Text style={{ color: "#FFFF" }}>
+                        Environment and Natural Resources
+                    </Text>
+                </View>
+            </View>
+            <LinearGradient
+                colors={['#C8E6C9', 'white', "#C8E6C9"]}
+                style={styles.parentContainer}
+            >
+                <ScrollView>
 
-                                {/* Group 1 */}
-                                <Text style={{ fontWeight: "bold", }}>Group 1</Text>
-                                <View style={{ marginLeft: 10 }}>
-                                    <Text>Mean for Group 1 is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{oneMean}</Text></Text>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={showModal}
+                        onRequestClose={() => {
+
+                        }}>
+
+                        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+
+                            <View style={[styles.shadowContainer, { backgroundColor: "#ffff", flex: 1, maxHeight: "80%", width: "80%" }]}>
+
+                                <View style={{ padding: 20 }}>
+                                    <Text style={{ fontWeight: "bold", fontSize: 20 }}>Result</Text>
                                 </View>
-                                <View style={{ marginTop: 20 }}>
-                                    <View style={styles.row}>
-                                        <View style={styles.column}>
-                                            <View style={styles.rowItem}>
-                                                <Text>Range</Text>
-                                            </View>
-                                            {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                                                <View style={styles.rowItem} key={index}>
-                                                    <Text>{key}</Text>
-                                                </View>
-                                            ))}
-
-                                            <View style={styles.rowItem}>
-                                                <Text>Total</Text>
-                                            </View>
+                                <ScrollView style={{ flex: 1 }}>
+                                    <View style={{ padding: 20 }}>
 
 
+
+                                        {/* Group 1 */}
+                                        <Text style={{ fontWeight: "bold", }}>Group 1</Text>
+                                        <View style={{ marginLeft: 10 }}>
+                                            <Text>Mean for Group 1 is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{oneMean}</Text></Text>
                                         </View>
+                                        <View style={{ marginTop: 20 }}>
+                                            <View style={styles.row}>
+                                                <View style={styles.column}>
+                                                    <View style={styles.rowItem}>
+                                                        <Text>Range</Text>
+                                                    </View>
+                                                    {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
+                                                        <View style={styles.rowItem} key={index}>
+                                                            <Text>{key}</Text>
+                                                        </View>
+                                                    ))}
 
-                                        <View style={styles.column}>
-                                            <View style={styles.rowItem}>
-                                                <Text>Frequency</Text>
-                                                <Text>Group 1</Text>
-                                            </View>
-                                            {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                                                <View style={styles.rowItem} key={index}>
-                                                    <Text>{value.count}</Text>
+                                                    <View style={styles.rowItem}>
+                                                        <Text>Total</Text>
+                                                    </View>
+
+
                                                 </View>
-                                            ))}
 
-                                            <View style={styles.rowItem}>
-                                                <Text>{Object.entries(getFrequency(arrOne).result).length}</Text>
-                                            </View>
+                                                <View style={styles.column}>
+                                                    <View style={styles.rowItem}>
+                                                        <Text>Frequency</Text>
+                                                        <Text>Group 1</Text>
+                                                    </View>
+                                                    {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
+                                                        <View style={styles.rowItem} key={index}>
+                                                            <Text>{value.count}</Text>
+                                                        </View>
+                                                    ))}
 
-                                        </View>
+                                                    <View style={styles.rowItem}>
+                                                        <Text>{Object.entries(getFrequency(arrOne).result).length}</Text>
+                                                    </View>
 
-                                        <View style={styles.column}>
-                                            <View style={styles.rowItem}>
-                                                <Text>Percentage</Text>
-                                                <Text>Group 1</Text>
-                                            </View>
-                                            {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                                                <View style={styles.rowItem} key={index}>
-                                                    <Text>{value.percentage}</Text>
                                                 </View>
-                                            ))}
 
-                                            <View style={styles.rowItem}>
-                                                <Text>{onePercentage}</Text>
+                                                <View style={styles.column}>
+                                                    <View style={styles.rowItem}>
+                                                        <Text>Percentage</Text>
+                                                        <Text>Group 1</Text>
+                                                    </View>
+                                                    {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
+                                                        <View style={styles.rowItem} key={index}>
+                                                            <Text>{value.percentage}</Text>
+                                                        </View>
+                                                    ))}
+
+                                                    <View style={styles.rowItem}>
+                                                        <Text>{onePercentage}</Text>
+                                                    </View>
+                                                </View>
                                             </View>
-                                        </View>
-                                    </View>
 
 
-                                    {/* Pie grap group 1 */}
-                                    <PieChart
-                                        showText
-                                        textSize={10}
-                                        labelsPosition='mid'
-                                        showValuesAsLabels
-                                        data={pieOne}
-                                    />
-                                    {/* Pie graph group 1 */}
+                                            {/* Pie grap group 1 */}
+                                            <PieChart
+                                                showText
+                                                textSize={10}
+                                                labelsPosition='mid'
+                                                showValuesAsLabels
+                                                data={pieOne}
+                                            />
+                                            {/* Pie graph group 1 */}
 
-                                    {/* Get Mean */}
+                                            {/* Get Mean */}
 
-                                    
-                                    <View style={{flex: 1, flexDirection:'row', alignItems:'center', justifyContent:"center", marginTop: 10}}>
-                                            
-                                            <View style={{alignItems:'center', justifyContent:'center'}}>
-                                            {/* <View style={{ flexDirection: "row", borderBottomWidth: 1 }}>
+
+                                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: "center", marginTop: 10 }}>
+
+                                                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                                    {/* <View style={{ flexDirection: "row", borderBottomWidth: 1 }}>
                                                 {arrOne.map((i, k) => (
 
                                                     <Text>
@@ -256,93 +284,93 @@ export default function ComputeScreen() {
                                             <View style={{ flexDirection: "row" }}>
                                                 <Text> {arrOne.length}</Text>
                                             </View> */}
-                                            </View>
-
-                                       
-                                    </View>
-
-                                    {/* Get Mean */}
-
-                                </View>
-                                {/* Group 1 */}
-
-
-                                {/* Group 2 */}
-                                <Text style={{ fontWeight: "bold", marginTop: 20 }}>Group 2</Text>
-
-                                <View style={{ marginLeft: 10 }}>
-                                    <Text> Mean for Group 2 is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{twoMean}</Text></Text>
-                                </View>
-                                <View scrollEnabled style={{ marginTop: 20, }}>
-                                    <View style={styles.row}>
-                                        <View style={styles.column}>
-                                            <View style={styles.rowItem}>
-                                                <Text>Range</Text>
-                                            </View>
-                                            {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                                                <View style={styles.rowItem} key={index}>
-                                                    <Text>{key}</Text>
                                                 </View>
-                                            ))}
 
-                                            <View style={styles.rowItem}>
-                                                <Text>Total</Text>
+
                                             </View>
+
+                                            {/* Get Mean */}
 
                                         </View>
-
-                                        <View style={styles.column}>
-                                            <View style={styles.rowItem}>
-                                                <Text>Frequency</Text>
-                                                <Text>Group 2</Text>
-                                            </View>
-                                            {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                                                <View style={styles.rowItem} key={index}>
-                                                    <Text>{value.count}</Text>
-                                                </View>
-                                            ))}
-
-                                            <View style={styles.rowItem}>
-                                                <Text>{Object.entries(getFrequency(arrTwo).result).length}</Text>
-                                            </View>
+                                        {/* Group 1 */}
 
 
+                                        {/* Group 2 */}
+                                        <Text style={{ fontWeight: "bold", marginTop: 20 }}>Group 2</Text>
 
+                                        <View style={{ marginLeft: 10 }}>
+                                            <Text> Mean for Group 2 is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{twoMean}</Text></Text>
                                         </View>
+                                        <View scrollEnabled style={{ marginTop: 20, }}>
+                                            <View style={styles.row}>
+                                                <View style={styles.column}>
+                                                    <View style={styles.rowItem}>
+                                                        <Text>Range</Text>
+                                                    </View>
+                                                    {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
+                                                        <View style={styles.rowItem} key={index}>
+                                                            <Text>{key}</Text>
+                                                        </View>
+                                                    ))}
 
-                                        <View style={styles.column}>
-                                            <View style={styles.rowItem}>
-                                                <Text>Percentage</Text>
-                                                <Text>Group 2</Text>
-                                            </View>
-                                            {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                                                <View style={styles.rowItem} key={index}>
-                                                    <Text>{value.percentage}</Text>
+                                                    <View style={styles.rowItem}>
+                                                        <Text>Total</Text>
+                                                    </View>
+
                                                 </View>
-                                            ))}
 
-                                            <View style={styles.rowItem}>
-                                                <Text>{twoPercentage}</Text>
+                                                <View style={styles.column}>
+                                                    <View style={styles.rowItem}>
+                                                        <Text>Frequency</Text>
+                                                        <Text>Group 2</Text>
+                                                    </View>
+                                                    {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
+                                                        <View style={styles.rowItem} key={index}>
+                                                            <Text>{value.count}</Text>
+                                                        </View>
+                                                    ))}
+
+                                                    <View style={styles.rowItem}>
+                                                        <Text>{Object.entries(getFrequency(arrTwo).result).length}</Text>
+                                                    </View>
+
+
+
+                                                </View>
+
+                                                <View style={styles.column}>
+                                                    <View style={styles.rowItem}>
+                                                        <Text>Percentage</Text>
+                                                        <Text>Group 2</Text>
+                                                    </View>
+                                                    {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
+                                                        <View style={styles.rowItem} key={index}>
+                                                            <Text>{value.percentage}</Text>
+                                                        </View>
+                                                    ))}
+
+                                                    <View style={styles.rowItem}>
+                                                        <Text>{twoPercentage}</Text>
+                                                    </View>
+
+
+                                                </View>
                                             </View>
 
+                                            <PieChart
+                                                showText
+                                                textSize={10}
+                                                labelsPosition='mid'
+                                                showValuesAsLabels
+                                                data={pieTwo}
+                                            />
 
-                                        </View>
-                                    </View>
+                                            {/* Get Mean */}
 
-                                    <PieChart
-                                        showText
-                                        textSize={10}
-                                        labelsPosition='mid'
-                                        showValuesAsLabels
-                                        data={pieTwo}
-                                    />
 
-                                    {/* Get Mean */}
+                                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: "center", marginTop: 10 }}>
 
-                                    
-                                    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: "center", marginTop: 10 }}>
-
-                                        {/* <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                                                {/* <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                                             <View style={{ flexDirection: "row", borderBottomWidth: 1 }}>
                                                 {arrTwo.map((i, k) => (
 
@@ -357,102 +385,107 @@ export default function ComputeScreen() {
                                             </View>
                                         </View> */}
 
-                                      
+
+                                            </View>
+
+                                            {/* Get Mean */}
+                                        </View>
+
+                                        {/* Group 2 */}
+
+
                                     </View>
-
-                                    {/* Get Mean */}
+                                </ScrollView>
+                                <View>
+                                    <Button onPress={() => setShowModal(false)}>
+                                        Close
+                                    </Button>
                                 </View>
+                            </View>
 
-                                {/* Group 2 */}
+                        </View>
+                    </Modal>
 
+
+                    <View style={styles.parentContainer}>
+                        <View >
+                            <Text>Please enter a number</Text>
+                            <TextInput
+                                value={inputOne}
+                                placeholder='Group 1'
+                                keyboardType='numeric'
+                                onChangeText={(v) => setInputOne(v)}
+                                style={styles.textInputContainer}
+                            />
+                            <View style={{ marginTop: 30 }}>
+                                <TouchableOpacity style={styles.buttonContainer} onPress={enterInput}>
+                                    <Text>Enter</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            {/* LIST */}
+                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFF8E1", padding: 20, flexDirection: "row" }]}>
+                                {arrOne.map((i, k) => (
+                                    <Text style={{}}>{k >= 1 ? "," + i : i}</Text>
+                                ))}
+                            </View>
+                            {/* LIST */}
+                        </View>
+
+
+                        <View style={{ flex: 1, marginTop: 50 }}>
+                            <Text>Please enter a number</Text>
+                            <TextInput
+                                placeholder='Group 2'
+                                value={inputTwo}
+                                keyboardType='numeric'
+                                onChangeText={(v) => setInputTwo(v)}
+                                style={styles.textInputContainer}
+                            />
+                            <View style={{ marginTop: 30 }}>
+                                <TouchableOpacity style={styles.buttonContainer} onPress={enterInputTwo}>
+                                    <Text>Enter</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            {/* LIST */}
+                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFF8E1", padding: 20, flexDirection: "row" }]}>
+                                {arrTwo.map((i, k) => (
+                                    <Text style={{}}>{k >= 1 ? "," + i : i}</Text>
+                                ))}
+                            </View>
+                            {/* LIST */}
+
+
+                        </View>
+
+
+                        {/* Compute button */}
+
+                        <View style={{ marginTop: 20 }}>
+
+                            <TouchableOpacity style={styles.buttonContainer} onPress={() => computeNow()}>
+                                <Text>Compute now</Text>
+                            </TouchableOpacity>
+
+
+
+                            <View style={{ marginTop: 10 }}>
+                                <Button type="clear" color={"error"} onPress={() => reset()}>
+                                    <Text style={{ color: "red", fontSize: 15 }}>Reset</Text>
+                                </Button>
 
                             </View>
-                        </ScrollView>
-                        <View>
-                            <Button onPress={() => setShowModal(false)}>
-                                Close
-                            </Button>
+
+
                         </View>
-                    </View>
 
-                </View>
-            </Modal>
-
-
-            <View style={styles.parentContainer}>
-                <View >
-                    <Text>Please enter a number</Text>
-                    <TextInput
-                        value={inputOne}
-                        placeholder='Group 1'
-                        keyboardType='numeric'
-                        onChangeText={(v) => setInputOne(v)}
-                        style={styles.textInputContainer}
-                    />
-                    <View style={{ marginTop: 30 }}>
-                        <Button onPress={enterInput}>
-                            Enter
-                        </Button>
-                    </View>
-
-                    {/* LIST */}
-                    <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFF8E1", padding: 20, flexDirection: "row" }]}>
-                        {arrOne.map((i, k) => (
-                            <Text style={{}}>{k >= 1 ? "," + i : i}</Text>
-                        ))}
-                    </View>
-                    {/* LIST */}
-                </View>
-
-
-                <View style={{ flex: 1, marginTop: 50 }}>
-                    <Text>Please enter a number</Text>
-                    <TextInput
-                        placeholder='Group 2'
-                        value={inputTwo}
-                        keyboardType='numeric'
-                        onChangeText={(v) => setInputTwo(v)}
-                        style={styles.textInputContainer}
-                    />
-                    <View style={{ marginTop: 30 }}>
-                        <Button onPress={enterInputTwo}>
-                            Enter
-                        </Button>
-                    </View>
-
-                    {/* LIST */}
-                    <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFF8E1", padding: 20, flexDirection: "row" }]}>
-                        {arrTwo.map((i, k) => (
-                            <Text style={{}}>{k >= 1 ? "," + i : i}</Text>
-                        ))}
-                    </View>
-                    {/* LIST */}
-
-
-                </View>
-
-
-                {/* Compute button */}
-
-                <View style={{ marginTop: 20 }}>
-                    <Button onPress={() => computeNow()}>
-                        Compute now
-                    </Button>
-
-                    <View style={{ marginTop: 10 }}>
-                        <Button type="clear" color={"error"} onPress={() => reset()}>
-                            <Text style={{ color: "red", fontSize: 15 }}>Reset</Text>
-                        </Button>
+                        {/* Compute button */}
 
                     </View>
-
-
-                </View>
-
-                {/* Compute button */}
-
-            </View>
-        </ScrollView>
+                </ScrollView>
+            </LinearGradient>
+        </SafeAreaView>
     );
 }
 
@@ -496,6 +529,16 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5, // This is for Android to show the shadow
         borderRadius: 5
+    },
+    buttonContainer: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 20,
+        backgroundColor: "white",
+        borderRadius: 100,
+        borderWidth: 1,
+        borderColor: "green"
     },
 
 });
