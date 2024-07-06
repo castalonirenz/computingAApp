@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, ScrollView, StyleSheet, Modal } from 'react-native';
 import { Button } from '@rneui/themed';
+import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
 
 export default function HomeScreen() {
   const [arrOne, setArrOne] = useState([]);
@@ -11,8 +12,11 @@ export default function HomeScreen() {
   const [onePercentage, setOnePercentage] = useState(0)
   const [twoPercentage, setTwoPercentage] = useState(0)
   const [showModal, setShowModal] = useState(false);
+  
+  const [pieOne, setPieOne] = useState([{value: 0}])
+  const [pieTwo, setPieTwo] = useState([{ value: 0 }])
 
-  let hahaa = 0
+  
 
   const enterInput = () => {
     if (inputOne !== '') {
@@ -44,7 +48,26 @@ export default function HomeScreen() {
   };
 
   const computeNow = () => {
+   
+
+    let a = []
+  
+
+  
+    Object.entries(getFrequency(arrOne).result).map(([key, value], index) => {
+      
+      a.push(value.item)
+    })
+    setPieOne(a)
+
+    Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => {
+
+      a.push(value.item)
+    })
+    setPieTwo(a)
+  
     setShowModal(true)
+
   }
 
   useEffect(() => {
@@ -79,6 +102,10 @@ export default function HomeScreen() {
         result[key] = {
           count: frequency[key],
           percentage: percentage,
+          item: {
+            value: ((frequency[key] / totalCount) * 100),
+            text:  `${((frequency[key] / totalCount) * 100).toFixed(2)+ '%'}`
+          }
         };
         sumOfPercentages += parseFloat(percentage); // Add percentage to sumOfPercentages
       }
@@ -178,6 +205,18 @@ export default function HomeScreen() {
                       </View>
                     </View>
                   </View>
+
+
+                  {/* Pie grap group 1 */}
+                  <PieChart
+                    showText
+                    textSize={10}
+                    labelsPosition='mid'
+                    showValuesAsLabels
+                    data={pieOne}
+                  />
+                  {/* Pie graph group 1 */}
+
                 </View>
                 {/* Group 1 */}
 
@@ -239,6 +278,14 @@ export default function HomeScreen() {
 
                     </View>
                   </View>
+
+                  <PieChart
+                    showText
+                    textSize={10}
+                    labelsPosition='mid'
+                    showValuesAsLabels
+                    data={pieTwo}
+                  />
                 </View>
 
                 {/* Group 2 */}
@@ -313,7 +360,7 @@ export default function HomeScreen() {
         {/* Compute button */}
 
         <View style={{marginTop: 20}}>
-          <Button onPress={() => setShowModal(true)}>
+          <Button onPress={() => computeNow()}>
             Compute now
           </Button>
 
