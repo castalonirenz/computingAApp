@@ -21,6 +21,9 @@ export default function ComputeScreen() {
     const [oneMean, setOneMean] = useState('')
     const [twoMean, setTwoMean] = useState('')
 
+    const [sumCountControl, setSumCountControl] = useState(0)
+    const [sumCountBest, setCountBest] = useState(0)
+
 
     const enterInput = () => {
         if (inputOne !== '') {
@@ -60,6 +63,7 @@ export default function ComputeScreen() {
         // frequency / total number * hedonic rank per row
         // add all it for the score
         let HedonicMeanControl = []
+        let sumOfCountH = 0
 
         Object.entries(getFrequency(arrOne).result).map(([key, value], index) => {
 
@@ -67,19 +71,24 @@ export default function ComputeScreen() {
             let lenghtTotalControl = Object.entries(getFrequency(arrOne).result).length
                       
             HedonicMeanControl.push((parseFloat(key) / lenghtTotalControl) * (parseFloat(value.count)))
+            sumOfCountH += parseFloat(value.count)
             // For the pie
             a.push(value.item)
         })
-        console.log(HedonicMeanControl)
+        
+        setSumCountControl(sumOfCountH)
         setPieOne(a)
 
 
         let HedonicMeanBestTreatment = []
+        let sumOfCountB = 0
         Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => {
             
             HedonicMeanBestTreatment.push((parseFloat(key) / arrTwo.length) * (parseFloat(value.item.value)))
+            sumOfCountB += parseFloat(value.count)
             b.push(value.item)
         })
+        setCountBest(sumOfCountB)
         setPieTwo(b)
 
 
@@ -98,10 +107,6 @@ export default function ComputeScreen() {
             meanT += parseFloat(i)
         })
 
-       
-        
-
-
         setOneMean(meanO)
         setTwoMean(meanT)
 
@@ -115,7 +120,7 @@ export default function ComputeScreen() {
 
 
     function getFrequency(arr) {
-        arr.sort((a, b) => a - b);
+        // arr.sort((a, b) => a - b);
         let frequency = {};
         let totalCount = arr.length;
 
@@ -135,10 +140,12 @@ export default function ComputeScreen() {
         // Calculate percentages and filter out keys with zero count
         let result = {};
         let sumOfPercentages = 0;
+        let sumOfCount = 0
         for (let key in frequency) {
             if (frequency[key] !== 0) {
                 let percentage = ((frequency[key] / totalCount) * 100).toFixed(2) + '%';
                 result[key] = {
+                    id: parseFloat(key),
                     count: frequency[key],
                     percentage: percentage,
                     item: {
@@ -146,22 +153,22 @@ export default function ComputeScreen() {
                         text: `${((frequency[key] / totalCount) * 100).toFixed(2) + '%'}`
                     }
                 };
+                sumOfCount += parseFloat(frequency[key])
                 sumOfPercentages += parseFloat(percentage); // Add percentage to sumOfPercentages
             }
         }
 
-
+        const dataArray = Object.values(result);
+        dataArray.sort((a, b) => b.id - a.id);
+        
         let final = {
-            result: result,
-            sum: sumOfPercentages
+            result: dataArray,
+            sum: sumOfPercentages,
+            total: sumOfCount
         }
 
-
-        //  // Optional: Check the result in console
-
-        // Optional: Check the result in console
-
-
+        
+        
         return final;
     }
 
@@ -231,7 +238,7 @@ export default function ComputeScreen() {
                                                     </View>
                                                     {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
                                                         <View style={[styles.rowItem, { alignItems: 'flex-start' }]} key={index}>
-                                                            <Text>{key}</Text>
+                                                            <Text>{value.id}</Text>
                                                         </View>
                                                     ))}
 
@@ -254,7 +261,7 @@ export default function ComputeScreen() {
                                                     ))}
 
                                                     <View style={styles.rowItem}>
-                                                        <Text>{Object.entries(getFrequency(arrOne).result).length}</Text>
+                                                        <Text>{sumCountControl}</Text>
                                                     </View>
 
                                                 </View>
@@ -278,13 +285,15 @@ export default function ComputeScreen() {
 
 
                                             {/* Pie grap group 1 */}
-                                            <PieChart
-                                                showText
-                                                textSize={10}
-                                                labelsPosition='mid'
-                                                showValuesAsLabels
-                                                data={pieOne}
-                                            />
+                                        <View style={{ alignItems:"center", justifyContent:"center", marginTop: 20}}>
+                                                <PieChart
+                                                    showText
+                                                    textSize={10}
+                                                    labelsPosition='mid'
+                                                    showValuesAsLabels
+                                                    data={pieOne}
+                                                />
+                                        </View>
                                             {/* Pie graph group 1 */}
 
                                             {/* Get Mean */}
@@ -331,7 +340,7 @@ export default function ComputeScreen() {
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                                                         <View style={[styles.rowItem, { alignItems: 'flex-start' }]} key={index}>
-                                                            <Text>{key}</Text>
+                                                            <Text>{value.id}</Text>
                                                         </View>
                                                     ))}
 
@@ -353,7 +362,7 @@ export default function ComputeScreen() {
                                                     ))}
 
                                                     <View style={styles.rowItem}>
-                                                        <Text>{Object.entries(getFrequency(arrTwo).result).length}</Text>
+                                                        <Text>{sumCountBest}</Text>
                                                     </View>
 
 
@@ -379,6 +388,7 @@ export default function ComputeScreen() {
                                                 </View>
                                             </View>
 
+                                            <View style={{ alignItems: "center", justifyContent: "center", marginTop: 20 }}>
                                             <PieChart
                                                 showText
                                                 textSize={10}
@@ -386,6 +396,7 @@ export default function ComputeScreen() {
                                                 showValuesAsLabels
                                                 data={pieTwo}
                                             />
+                                            </View>
 
                                             {/* Get Mean */}
 
