@@ -16,15 +16,15 @@ export default function HomeScreen() {
   return (
 
    <SafeAreaView style={{flex: 1}}>
-      <View style={{backgroundColor:"green", alignItems:"center", padding: 20, flexDirection:"row"}}>
+      <View style={{ backgroundColor: "green", alignItems: "center", padding: 10, flexDirection: "row", justifyContent:"center", position:"relative" }}>
+        <View style={{ alignSelf: "flex-start", position:"absolute", left: 20, top:5 }}>
+          <Image
+            resizeMode="contain"
+            style={{ height: 50, width: 50 }}
+            source={require('../../assets/images/csu-logo.png')} />
+        </View>
 
-        <Image 
-          resizeMode="contain"
-          style={{height: 100, width: 100}}
-          source={require('../../assets/images/csu-logo.png')}/>
-
-
-        <View style={{marginLeft: 10}}>
+        <View style={{ marginLeft: 10, alignItems: "center" }}>
           <Text style={{ color: "#FFFF" }}>
             Cavite State University
           </Text>
@@ -43,46 +43,51 @@ export default function HomeScreen() {
         style={styles.parentContainer}>
 
 
+        <View style={{ alignItems: 'center', justifyContent: "center", marginTop: 20 }}>
+          <Text style={{ color: "green", fontWeight: "bold", fontSize: 30, textAlign:"center"}}>
+            Institute of Food Science and Technology
+          </Text>
+        </View>
 
-        <ScrollView style={{ flex: 1, padding: 20 }}>
+        {/* <ScrollView style={{ flex: 1, padding: 20, backgroundColor: "blue", }}> */}
 
 
 
-          <View>
-            <Text style={{ color: "green", fontWeight: "bold", fontSize: 18 }}>
-              Institute of Food Science and Technology
-            </Text>
-          </View>
+         <View style={{flex: 1, alignItems:"center", justifyContent:"center"}}>
+            
 
-          <View style={{ backgroundColor: "green", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
-            <Text style={{ color: "#FFFF" }}>
-              CONSUMER ACCEPTABILITY
-              OF BAKERY PRODUCTS WITH KAONG SWEETENER
+            <View style={{ backgroundColor: "green", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
+              <Text style={{ color: "#FFFF", textAlign: "center" }}>
+                CONSUMER ACCEPTABILITY
+                OF BAKERY PRODUCTS WITH KAONG SUGAR
 
-            </Text>
-          </View>
-
-          <View style={{ marginTop: 20 }}>
-            <TouchableOpacity onPress={() => router.navigate('/compute')} style={[styles.buttonContainer]}>
-
-              <Text>
-                Compute
               </Text>
-            </TouchableOpacity>
+            </View>
 
-          </View>
+            <View style={{ marginTop: 20, height: 70, width:"70%" }}>
+              <TouchableOpacity onPress={() => router.navigate('/compute')} style={[styles.buttonContainer]}>
 
-          <View style={{ flex: 1, alignItems: "center", justifyContent: "center", marginTop: 20 }}>
+                <Text>
+                  Compute
+                </Text>
+              </TouchableOpacity>
+
+            </View>
+         </View>
+
+     
+
+
+
+        {/* </ScrollView> */}
+
+             <View style={{ justifyContent: "center",  width: "90%", marginLeft:"5%" }}>
 
             <Text style={styles.text}>Kaong Sugar is an all-natural sweetener alternative.</Text>
             <Text style={styles.text}>It is highly nutritious and has a low glycemic index, making it ideal for diabetics and dieters.</Text>
-            <Text style={styles.text}>It is made using the newly gathered sap that comes from the kaong plant, which grows along rivers and streams in Upland.</Text>
+            <Text style={styles.text}>It is made using the newly gathered sap that comes from the kaong plant, which grows along rivers and streams in Upland Cavite.</Text>
 
           </View>
-
-
-
-        </ScrollView>
         <View style={{ backgroundColor: "green", padding: 10, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
           <Text style={{ color: "#FFFF" }}>
             BACHELOR OF FOOD SCIENCE AND TECHNOLOGY
@@ -148,7 +153,7 @@ const styles = StyleSheet.create({
     borderColor: "green"
   },
   text:{
-
+    textAlign:"left"
   }
 
 });

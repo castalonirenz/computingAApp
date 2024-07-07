@@ -57,34 +57,53 @@ export default function ComputeScreen() {
         let a = []
         let b = []
 
+        // frequency / total number * hedonic rank per row
+        // add all it for the score
+        let HedonicMeanControl = []
 
         Object.entries(getFrequency(arrOne).result).map(([key, value], index) => {
 
+            // Key is the hedonic rank
+            let lenghtTotalControl = Object.entries(getFrequency(arrOne).result).length
+                      
+            HedonicMeanControl.push((parseFloat(key) / lenghtTotalControl) * (parseFloat(value.count)))
+            // For the pie
             a.push(value.item)
         })
+        console.log(HedonicMeanControl)
         setPieOne(a)
 
-        Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => {
 
+        let HedonicMeanBestTreatment = []
+        Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => {
+            
+            HedonicMeanBestTreatment.push((parseFloat(key) / arrTwo.length) * (parseFloat(value.item.value)))
             b.push(value.item)
         })
         setPieTwo(b)
 
 
         let meanO = 0
+        let meanOlist = []
 
-        arrOne.map((i, k) => {
+        HedonicMeanControl.map((i, k) => {
             meanO += parseFloat(i)
+
+         
         })
 
         let meanT = 0
 
-        arrTwo.map((i, k) => {
+        HedonicMeanBestTreatment.map((i, k) => {
             meanT += parseFloat(i)
         })
 
-        setOneMean(meanO/ arrOne.length)
-        setTwoMean(meanT/ arrTwo.length)
+       
+        
+
+
+        setOneMean(meanO)
+        setTwoMean(meanT)
 
         setShowModal(true)
 
@@ -151,15 +170,15 @@ export default function ComputeScreen() {
     return (
         <SafeAreaView style={{flex: 1}}>
 
-            <View style={{ backgroundColor: "green", alignItems: "center", padding: 20, flexDirection: "row" }}>
+            <View style={{ backgroundColor: "green", alignItems: "center", padding: 10, flexDirection: "row", justifyContent: "center", position: "relative" }}>
+                <View style={{ alignSelf: "flex-start", position: "absolute", left: 20, top: 5 }}>
+                    <Image
+                        resizeMode="contain"
+                        style={{ height: 50, width: 50 }}
+                        source={require('../../assets/images/csu-logo.png')} />
+                </View>
 
-                <Image
-                    resizeMode="contain"
-                    style={{ height: 100, width: 100 }}
-                    source={require('../../assets/images/csu-logo.png')} />
-
-
-                <View style={{ marginLeft: 10 }}>
+                <View style={{ marginLeft: 10, alignItems: "center" }}>
                     <Text style={{ color: "#FFFF" }}>
                         Cavite State University
                     </Text>
@@ -171,6 +190,7 @@ export default function ComputeScreen() {
                     </Text>
                 </View>
             </View>
+
             <LinearGradient
                 colors={['#C8E6C9', 'white', "#C8E6C9"]}
                 style={styles.parentContainer}
@@ -198,23 +218,24 @@ export default function ComputeScreen() {
 
 
                                         {/* Group 1 */}
-                                        <Text style={{ fontWeight: "bold", }}>Group 1</Text>
+                                        <Text style={{ fontWeight: "bold", }}>Control</Text>
                                         <View style={{ marginLeft: 10 }}>
-                                            <Text>Mean for Group 1 is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{oneMean}</Text></Text>
+                                            <Text>Mean for this  is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{oneMean}</Text></Text>
                                         </View>
                                         <View style={{ marginTop: 20 }}>
                                             <View style={styles.row}>
                                                 <View style={styles.column}>
-                                                    <View style={styles.rowItem}>
-                                                        <Text>Range</Text>
+                                                    <View style={[styles.rowItem, {alignItems:'flex-start'}]}>
+                                                        <Text>Hedonic</Text>
+                                                        <Text>Rank</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                                                        <View style={styles.rowItem} key={index}>
+                                                        <View style={[styles.rowItem, { alignItems: 'flex-start' }]} key={index}>
                                                             <Text>{key}</Text>
                                                         </View>
                                                     ))}
 
-                                                    <View style={styles.rowItem}>
+                                                    <View style={[styles.rowItem, { alignItems: 'flex-start' }]}>
                                                         <Text>Total</Text>
                                                     </View>
 
@@ -224,7 +245,7 @@ export default function ComputeScreen() {
                                                 <View style={styles.column}>
                                                     <View style={styles.rowItem}>
                                                         <Text>Frequency</Text>
-                                                        <Text>Group 1</Text>
+                                                        <Text>Control</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
                                                         <View style={styles.rowItem} key={index}>
@@ -241,7 +262,7 @@ export default function ComputeScreen() {
                                                 <View style={styles.column}>
                                                     <View style={styles.rowItem}>
                                                         <Text>Percentage</Text>
-                                                        <Text>Group 1</Text>
+                                                        <Text>Control</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
                                                         <View style={styles.rowItem} key={index}>
@@ -296,24 +317,25 @@ export default function ComputeScreen() {
 
 
                                         {/* Group 2 */}
-                                        <Text style={{ fontWeight: "bold", marginTop: 20 }}>Group 2</Text>
+                                        <Text style={{ fontWeight: "bold", marginTop: 20 }}>Best treatment</Text>
 
                                         <View style={{ marginLeft: 10 }}>
-                                            <Text> Mean for Group 2 is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{twoMean}</Text></Text>
+                                            <Text> Mean for this is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{twoMean}</Text></Text>
                                         </View>
                                         <View scrollEnabled style={{ marginTop: 20, }}>
                                             <View style={styles.row}>
                                                 <View style={styles.column}>
-                                                    <View style={styles.rowItem}>
-                                                        <Text>Range</Text>
+                                                    <View style={[styles.rowItem, { alignItems: 'flex-start' }]}>
+                                                        <Text>Hedonic</Text>
+                                                        <Text>Rank</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                                                        <View style={styles.rowItem} key={index}>
+                                                        <View style={[styles.rowItem, { alignItems: 'flex-start' }]} key={index}>
                                                             <Text>{key}</Text>
                                                         </View>
                                                     ))}
 
-                                                    <View style={styles.rowItem}>
+                                                    <View style={[styles.rowItem, { alignItems: 'flex-start' }]}>
                                                         <Text>Total</Text>
                                                     </View>
 
@@ -322,7 +344,7 @@ export default function ComputeScreen() {
                                                 <View style={styles.column}>
                                                     <View style={styles.rowItem}>
                                                         <Text>Frequency</Text>
-                                                        <Text>Group 2</Text>
+                                                        <Text style={{ fontSize: 10 }}>Best treatment</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                                                         <View style={styles.rowItem} key={index}>
@@ -341,7 +363,7 @@ export default function ComputeScreen() {
                                                 <View style={styles.column}>
                                                     <View style={styles.rowItem}>
                                                         <Text>Percentage</Text>
-                                                        <Text>Group 2</Text>
+                                                        <Text style={{fontSize: 10}}>Best treatment</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                                                         <View style={styles.rowItem} key={index}>
@@ -407,12 +429,21 @@ export default function ComputeScreen() {
                     </Modal>
 
 
+                    <View style={{ backgroundColor: "green", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 30 }}>
+                        <Text style={{ color: "#FFFF", textAlign: "center" }}>
+                            CONSUMER ACCEPTABILITY
+                            OF BAKERY PRODUCTS WITH KAONG SUGAR
+
+                        </Text>
+                    </View>
+
+
                     <View style={styles.parentContainer}>
                         <View >
                             <Text>Please enter a number</Text>
                             <TextInput
                                 value={inputOne}
-                                placeholder='Group 1'
+                                placeholder='Control'
                                 keyboardType='numeric'
                                 onChangeText={(v) => setInputOne(v)}
                                 style={styles.textInputContainer}
@@ -436,7 +467,7 @@ export default function ComputeScreen() {
                         <View style={{ flex: 1, marginTop: 50 }}>
                             <Text>Please enter a number</Text>
                             <TextInput
-                                placeholder='Group 2'
+                                placeholder='Best treatment'
                                 value={inputTwo}
                                 keyboardType='numeric'
                                 onChangeText={(v) => setInputTwo(v)}
