@@ -25,18 +25,54 @@ export default function ComputeScreen() {
     const [sumCountBest, setCountBest] = useState(0)
 
 
+    const typingOne = (v ) => {
+        let regex = /^[,\d\s]+$/;
+
+        if (regex.test(v)) {
+            let convert = v.replace(/,\s*/g, ',')
+            let finalConvert = convert.replace(/\s+/ig, ',')
+            // 
+
+            
+            setInputOne(finalConvert)
+        } else {
+            return false; // Invalid input
+        }
+
+      
+    } 
+
     const enterInput = () => {
+        
+        let array1 = inputOne.split(',').map(item => parseInt(item.trim()));
         if (inputOne !== '') {
-            const updatedArr = [...arrOne, inputOne];
-            setArrOne(updatedArr);
+
+            if(array1.length == 1){
+                const updatedArr = [...arrOne, inputOne];
+                setArrOne(updatedArr);
 
 
-            setOnePercentage(getFrequency(arrOne).sum + "%")
-            setInputOne('');
+                setOnePercentage(Math.round(getFrequency(arrOne).sum) + "%")
+                setInputOne('');
+            }
+            
+        
+            else{
+                const updatedArr = [...arrOne]
+                    array1.map((i,k) => {
+                        
+                        if(!isNaN(i)) updatedArr.push(i)
+                    })
+      
+                    setArrOne(updatedArr);
+                setOnePercentage(Math.round(getFrequency(arrOne).sum) + "%")
+                setInputOne('');
 
+            }
 
         }
     };
+
 
     const reset = () => {
         setArrOne([])
@@ -45,12 +81,57 @@ export default function ComputeScreen() {
         setTwoPercentage(0)
     }
 
+    const typingTwo = (v) => {
+        let regex = /^[,\d\s]+$/;
+
+        if (regex.test(v)) {
+            let convert = v.replace(/,\s*/g, ',')
+            let finalConvert = convert.replace(/\s+/ig, ',')
+            // 
+
+
+            setInputTwo(finalConvert)
+        } else {
+            return false; // Invalid input
+        }
+
+
+    } 
+
     const enterInputTwo = () => {
+        // if (inputTwo !== '') {
+        //     const updatedArr = [...arrTwo, inputTwo];
+        //     setArrTwo(updatedArr);
+        //     setInputTwo('');
+        //     setTwoPercentage(getFrequency(arrTwo).sum + "%")
+        // }
+
+
+        let array1 = inputTwo.split(',').map(item => parseInt(item.trim()));
         if (inputTwo !== '') {
-            const updatedArr = [...arrTwo, inputTwo];
-            setArrTwo(updatedArr);
-            setInputTwo('');
-            setTwoPercentage(getFrequency(arrTwo).sum + "%")
+
+            if (array1.length == 1) {
+                const updatedArr = [...arrTwo, inputTwo];
+                setArrTwo(updatedArr);
+
+
+                setTwoPercentage(Math.round(getFrequency(arrTwo).sum) + "%")
+                setInputTwo('');
+            }
+
+
+            else {
+                const updatedArr = [...arrTwo]
+                array1.map((i, k) => {
+                    if (!isNaN(i)) updatedArr.push(i)
+                })
+
+                setArrTwo(updatedArr);
+                setTwoPercentage(Math.round(getFrequency(arrTwo).sum) + "%")
+                setInputTwo('');
+
+            }
+
         }
     };
 
@@ -110,7 +191,7 @@ export default function ComputeScreen() {
         let meanT = 0
 
         HedonicMeanBestTreatment.map((i, k) => {
-            meanT += (parseFloat(i.count) / sumOfCountB.length) * i.k
+            meanT += (parseFloat(i.count) / sumOfCountB) * i.k
         })
         
         
@@ -221,7 +302,7 @@ export default function ComputeScreen() {
 
                         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
 
-                            <View style={[styles.shadowContainer, { backgroundColor: "#ffff", flex: 1, maxHeight: "80%", width: "80%" }]}>
+                            <View style={[styles.shadowContainer, { backgroundColor: "#ffff", flex: 1, maxHeight: "80%", width: "90%" }]}>
 
                                 <View style={{ padding: 20 }}>
                                     <Text style={{ fontWeight: "bold", fontSize: 20 }}>Result</Text>
@@ -234,7 +315,7 @@ export default function ComputeScreen() {
                                         {/* Group 1 */}
                                         <Text style={[{ fontWeight: "bold", }, styles.text]}>Control</Text>
                                         <View style={{ marginLeft: 10 }}>
-                                            <Text style={styles.text}>Mean for this  is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{oneMean}</Text></Text>
+                                            <Text style={styles.text}>Mean for this is x̄ = <Text style={{ fontWeight: "bold", fontSize: 20 }}>{oneMean}</Text></Text>
                                         </View>
                                         <View style={{ marginTop: 20 }}>
                                             <View style={styles.row}>
@@ -336,13 +417,13 @@ export default function ComputeScreen() {
                                         <Text style={[{ fontWeight: "bold", marginTop: 20 }, styles.text]}>Best treatment</Text>
 
                                         <View style={{ marginLeft: 10 }}>
-                                            <Text style={styles.text}> Mean for this is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{twoMean}</Text></Text>
+                                            <Text style={styles.text}> Mean for this is x̄ =<Text style={{ fontWeight: "bold", fontSize: 20 }}>{twoMean}</Text></Text>
                                         </View>
                                         <View scrollEnabled style={{ marginTop: 20, }}>
                                             <View style={styles.row}>
                                                 <View style={styles.column}>
                                                     <View style={[styles.rowItem, { alignItems: 'flex-start' }]}>
-                                                        <Text style={styles.text}>Hedonic</Text>
+                                                        <Text adjustsFontSizeToFit={true} style={styles.text}>Hedonic</Text>
                                                         <Text style={styles.text}>Rank</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
@@ -360,7 +441,7 @@ export default function ComputeScreen() {
                                                 <View style={styles.column}>
                                                     <View style={styles.rowItem}>
                                                         <Text style={styles.text}>Frequency</Text>
-                                                        <Text style={[{ fontSize: 10 }, styles.text]}>Best treatment</Text>
+                                                        <Text style={[{ fontSize: 5 }, styles.text]}>Best treatment</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                                                         <View style={styles.rowItem} key={index}>
@@ -462,8 +543,8 @@ export default function ComputeScreen() {
                             <TextInput
                                 value={inputOne}
                                 placeholder='Control'
-                                keyboardType='numeric'
-                                onChangeText={(v) => setInputOne(v)}
+                                keyboardType='numbers-and-punctuation'
+                                onChangeText={(v) => typingOne(v)}
                                 style={styles.textInputContainer}
                             />
                             <View style={{ marginTop: 30 }}>
@@ -487,8 +568,8 @@ export default function ComputeScreen() {
                             <TextInput
                                 placeholder='Best treatment'
                                 value={inputTwo}
-                                keyboardType='numeric'
-                                onChangeText={(v) => setInputTwo(v)}
+                                keyboardType='numbers-and-punctuation'
+                                onChangeText={(v) => typingTwo(v)}
                                 style={styles.textInputContainer}
                             />
                             <View style={{ marginTop: 30 }}>
@@ -551,15 +632,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexGrow: 1,
         backgroundColor: 'white',
-        padding: 10,
-        width: "100%"
+        padding: 0,
+        width: "100%",
+        alignItems:'center',justifyContent:"center"
     },
     column: {
         width: "33.33%"
     },
     rowItem: {
-        height: 50,
-        padding: 15,
+        // height: 100,
+        height: 80,
+        
+        padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomWidth: 1,
@@ -591,7 +675,8 @@ const styles = StyleSheet.create({
         borderColor: "#5e908e"
     },
     text:{
-        color: "#5E908E"
+        color: "#5E908E",
+        fontSize: 13
     }
 
 });

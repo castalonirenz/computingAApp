@@ -25,7 +25,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={{ marginLeft: 10, alignItems: "center" }}>
-          <Text style={{ color: "#FFFF" }}>
+          <Text adjustsFontSizeToFit={true} style={{ color: "#FFFF" }}>
             Cavite State University
           </Text>
           <Text style={{ color: "#FFFF" }}>
@@ -81,7 +81,7 @@ export default function HomeScreen() {
 
         {/* </ScrollView> */}
 
-             <View style={{ justifyContent: "center",  width: "90%", marginLeft:"5%" }}>
+             <View style={{ justifyContent: "center",  width: "90%", marginLeft:"5%", overflow:"hidden" }}>
 
             <Text style={styles.text}>Kaong Sugar is an all-natural sweetener alternative.</Text>
             <Text style={styles.text}>It is highly nutritious and has a low glycemic index, making it ideal for diabetics and dieters.</Text>
@@ -89,10 +89,10 @@ export default function HomeScreen() {
 
           </View>
         <View style={{ backgroundColor: "#5e908e", padding: 10, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
-          <Text style={{ color: "#FFFF" }}>
-            BACHELOR OF FOOD SCIENCE AND TECHNOLOGY
+          <Text style={{ color: "#FFFF", textAlign:"center" }}>
+            BACHELOR OF SCIENCE IN FOOD AND TECHNOLOGY
           </Text>
-          <Text style={{ color: "#FFFF" }}>
+          <Text style={{ color: "#FFFF" , textAlign:"center"}}>
             2023 - 2024
           </Text>
         </View>
@@ -153,7 +153,11 @@ const styles = StyleSheet.create({
     borderColor: "#5e908e"
   },
   text:{
-    textAlign:"left"
-  }
+    textAlign:"left",
+    fontSize: 12
+  },
+  textSize:[
+
+  ]
 
 });
