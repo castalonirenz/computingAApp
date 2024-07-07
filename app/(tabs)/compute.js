@@ -65,16 +65,21 @@ export default function ComputeScreen() {
         let HedonicMeanControl = []
         let sumOfCountH = 0
 
+        
+
         Object.entries(getFrequency(arrOne).result).map(([key, value], index) => {
 
             // Key is the hedonic rank
-            let lenghtTotalControl = Object.entries(getFrequency(arrOne).result).length
-                      
-            HedonicMeanControl.push((parseFloat(key) / lenghtTotalControl) * (parseFloat(value.count)))
+           
+            // HedonicMeanControl.push((parseFloat(key) / lenghtTotalControl) * (parseFloat(value.count)))
+            HedonicMeanControl.push({k: value.id, count: parseFloat(value.count)})
+            
             sumOfCountH += parseFloat(value.count)
             // For the pie
             a.push(value.item)
         })
+
+        
         
         setSumCountControl(sumOfCountH)
         setPieOne(a)
@@ -84,7 +89,9 @@ export default function ComputeScreen() {
         let sumOfCountB = 0
         Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => {
             
-            HedonicMeanBestTreatment.push((parseFloat(key) / arrTwo.length) * (parseFloat(value.item.value)))
+      
+            // HedonicMeanBestTreatment.push((parseFloat(key) / arrTwo.length) * (parseFloat(value.item.value)))
+            HedonicMeanBestTreatment.push({ k: value.id, count: parseFloat(value.count) })
             sumOfCountB += parseFloat(value.count)
             b.push(value.item)
         })
@@ -93,10 +100,9 @@ export default function ComputeScreen() {
 
 
         let meanO = 0
-        let meanOlist = []
 
         HedonicMeanControl.map((i, k) => {
-            meanO += parseFloat(i)
+            meanO += (parseFloat(i.k) / HedonicMeanControl.length) * i.count
 
          
         })
@@ -104,10 +110,11 @@ export default function ComputeScreen() {
         let meanT = 0
 
         HedonicMeanBestTreatment.map((i, k) => {
-            meanT += parseFloat(i)
+            meanT += (parseFloat(i.k) / HedonicMeanBestTreatment.length) * i.count
         })
-
-        setOneMean(meanO)
+        
+        
+        setOneMean(meanO )
         setTwoMean(meanT)
 
         setShowModal(true)
