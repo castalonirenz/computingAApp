@@ -102,7 +102,7 @@ export default function ComputeScreen() {
         let meanO = 0
 
         HedonicMeanControl.map((i, k) => {
-            meanO += (parseFloat(i.k) / HedonicMeanControl.length) * i.count
+            meanO += (parseFloat(i.count) / sumOfCountH) * i.k
 
          
         })
@@ -110,12 +110,12 @@ export default function ComputeScreen() {
         let meanT = 0
 
         HedonicMeanBestTreatment.map((i, k) => {
-            meanT += (parseFloat(i.k) / HedonicMeanBestTreatment.length) * i.count
+            meanT += (parseFloat(i.count) / sumOfCountB.length) * i.k
         })
         
         
-        setOneMean(meanO )
-        setTwoMean(meanT)
+        setOneMean(meanO.toFixed(2))
+        setTwoMean(meanT.toFixed(2))
 
         setShowModal(true)
 
@@ -184,7 +184,7 @@ export default function ComputeScreen() {
     return (
         <SafeAreaView style={{flex: 1}}>
 
-            <View style={{ backgroundColor: "green", alignItems: "center", padding: 10, flexDirection: "row", justifyContent: "center", position: "relative" }}>
+            <View style={{ backgroundColor: "#5e908e", alignItems: "center", padding: 10, flexDirection: "row", justifyContent: "center", position: "relative" }}>
                 <View style={{ alignSelf: "flex-start", position: "absolute", left: 20, top: 5 }}>
                     <Image
                         resizeMode="contain"
@@ -206,7 +206,7 @@ export default function ComputeScreen() {
             </View>
 
             <LinearGradient
-                colors={['#C8E6C9', 'white', "#C8E6C9"]}
+                colors={['white', 'white', "white"]}
                 style={styles.parentContainer}
             >
                 <ScrollView>
@@ -232,25 +232,25 @@ export default function ComputeScreen() {
 
 
                                         {/* Group 1 */}
-                                        <Text style={{ fontWeight: "bold", }}>Control</Text>
+                                        <Text style={[{ fontWeight: "bold", }, styles.text]}>Control</Text>
                                         <View style={{ marginLeft: 10 }}>
-                                            <Text>Mean for this  is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{oneMean}</Text></Text>
+                                            <Text style={styles.text}>Mean for this  is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{oneMean}</Text></Text>
                                         </View>
                                         <View style={{ marginTop: 20 }}>
                                             <View style={styles.row}>
                                                 <View style={styles.column}>
                                                     <View style={[styles.rowItem, {alignItems:'flex-start'}]}>
-                                                        <Text>Hedonic</Text>
-                                                        <Text>Rank</Text>
+                                                        <Text style={styles.text}>Hedonic</Text>
+                                                        <Text style={styles.text}>Rank</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
                                                         <View style={[styles.rowItem, { alignItems: 'flex-start' }]} key={index}>
-                                                            <Text>{value.id}</Text>
+                                                            <Text style={styles.text}>{value.id}</Text>
                                                         </View>
                                                     ))}
 
                                                     <View style={[styles.rowItem, { alignItems: 'flex-start' }]}>
-                                                        <Text>Total</Text>
+                                                        <Text style={styles.text}>Total</Text>
                                                     </View>
 
 
@@ -258,34 +258,34 @@ export default function ComputeScreen() {
 
                                                 <View style={styles.column}>
                                                     <View style={styles.rowItem}>
-                                                        <Text>Frequency</Text>
-                                                        <Text>Control</Text>
+                                                        <Text style={styles.text}>Frequency</Text>
+                                                        <Text style={styles.text}>Control</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
                                                         <View style={styles.rowItem} key={index}>
-                                                            <Text>{value.count}</Text>
+                                                            <Text style={styles.text}>{value.count}</Text>
                                                         </View>
                                                     ))}
 
                                                     <View style={styles.rowItem}>
-                                                        <Text>{sumCountControl}</Text>
+                                                        <Text style={styles.text}>{sumCountControl}</Text>
                                                     </View>
 
                                                 </View>
 
                                                 <View style={styles.column}>
                                                     <View style={styles.rowItem}>
-                                                        <Text>Percentage</Text>
-                                                        <Text>Control</Text>
+                                                        <Text style={styles.text}>Percentage</Text>
+                                                        <Text style={styles.text}>Control</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
                                                         <View style={styles.rowItem} key={index}>
-                                                            <Text>{value.percentage}</Text>
+                                                            <Text style={styles.text}>{value.percentage}</Text>
                                                         </View>
                                                     ))}
 
                                                     <View style={styles.rowItem}>
-                                                        <Text>{onePercentage}</Text>
+                                                        <Text style={styles.text}>{onePercentage}</Text>
                                                     </View>
                                                 </View>
                                             </View>
@@ -333,43 +333,43 @@ export default function ComputeScreen() {
 
 
                                         {/* Group 2 */}
-                                        <Text style={{ fontWeight: "bold", marginTop: 20 }}>Best treatment</Text>
+                                        <Text style={[{ fontWeight: "bold", marginTop: 20 }, styles.text]}>Best treatment</Text>
 
                                         <View style={{ marginLeft: 10 }}>
-                                            <Text> Mean for this is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{twoMean}</Text></Text>
+                                            <Text style={styles.text}> Mean for this is x̄: <Text style={{ fontWeight: "bold", fontSize: 20 }}>{twoMean}</Text></Text>
                                         </View>
                                         <View scrollEnabled style={{ marginTop: 20, }}>
                                             <View style={styles.row}>
                                                 <View style={styles.column}>
                                                     <View style={[styles.rowItem, { alignItems: 'flex-start' }]}>
-                                                        <Text>Hedonic</Text>
-                                                        <Text>Rank</Text>
+                                                        <Text style={styles.text}>Hedonic</Text>
+                                                        <Text style={styles.text}>Rank</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                                                         <View style={[styles.rowItem, { alignItems: 'flex-start' }]} key={index}>
-                                                            <Text>{value.id}</Text>
+                                                            <Text style={styles.text}>{value.id}</Text>
                                                         </View>
                                                     ))}
 
                                                     <View style={[styles.rowItem, { alignItems: 'flex-start' }]}>
-                                                        <Text>Total</Text>
+                                                        <Text style={styles.text}>Total</Text>
                                                     </View>
 
                                                 </View>
 
                                                 <View style={styles.column}>
                                                     <View style={styles.rowItem}>
-                                                        <Text>Frequency</Text>
-                                                        <Text style={{ fontSize: 10 }}>Best treatment</Text>
+                                                        <Text style={styles.text}>Frequency</Text>
+                                                        <Text style={[{ fontSize: 10 }, styles.text]}>Best treatment</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                                                         <View style={styles.rowItem} key={index}>
-                                                            <Text>{value.count}</Text>
+                                                            <Text style={styles.text}>{value.count}</Text>
                                                         </View>
                                                     ))}
 
                                                     <View style={styles.rowItem}>
-                                                        <Text>{sumCountBest}</Text>
+                                                        <Text style={styles.text}>{sumCountBest}</Text>
                                                     </View>
 
 
@@ -378,17 +378,17 @@ export default function ComputeScreen() {
 
                                                 <View style={styles.column}>
                                                     <View style={styles.rowItem}>
-                                                        <Text>Percentage</Text>
-                                                        <Text style={{fontSize: 10}}>Best treatment</Text>
+                                                        <Text style={styles.text}>Percentage</Text>
+                                                        <Text style={[{fontSize: 10}, styles.text]}>Best treatment</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
                                                         <View style={styles.rowItem} key={index}>
-                                                            <Text>{value.percentage}</Text>
+                                                            <Text style={styles.text}>{value.percentage}</Text>
                                                         </View>
                                                     ))}
 
                                                     <View style={styles.rowItem}>
-                                                        <Text>{twoPercentage}</Text>
+                                                        <Text style={styles.text}>{twoPercentage}</Text>
                                                     </View>
 
 
@@ -447,7 +447,7 @@ export default function ComputeScreen() {
                     </Modal>
 
 
-                    <View style={{ backgroundColor: "green", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 30 }}>
+                    <View style={{ backgroundColor: "#5e908e", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 30 }}>
                         <Text style={{ color: "#FFFF", textAlign: "center" }}>
                             CONSUMER ACCEPTABILITY
                             OF BAKERY PRODUCTS WITH KAONG SUGAR
@@ -473,9 +473,9 @@ export default function ComputeScreen() {
                             </View>
 
                             {/* LIST */}
-                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFF8E1", padding: 20, flexDirection: "row" }]}>
+                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#5e908e", padding: 20, flexDirection: "row" }]}>
                                 {arrOne.map((i, k) => (
-                                    <Text style={{}}>{k >= 1 ? "," + i : i}</Text>
+                                    <Text style={{color:"white"}}>{k >= 1 ? "," + i : i}</Text>
                                 ))}
                             </View>
                             {/* LIST */}
@@ -498,9 +498,9 @@ export default function ComputeScreen() {
                             </View>
 
                             {/* LIST */}
-                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFF8E1", padding: 20, flexDirection: "row" }]}>
+                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#5e908e", padding: 20, flexDirection: "row" }]}>
                                 {arrTwo.map((i, k) => (
-                                    <Text style={{}}>{k >= 1 ? "," + i : i}</Text>
+                                    <Text style={{color: "white"}}>{k >= 1 ? "," + i : i}</Text>
                                 ))}
                             </View>
                             {/* LIST */}
@@ -563,6 +563,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomWidth: 1,
+        borderBottomColor: "#5e908e"
     },
     parentContainer: {
         flex: 1,
@@ -584,10 +585,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
-        backgroundColor: "white",
+        backgroundColor: "#C8CFA0",
         borderRadius: 100,
         borderWidth: 1,
-        borderColor: "green"
+        borderColor: "#5e908e"
     },
+    text:{
+        color: "#5E908E"
+    }
 
 });

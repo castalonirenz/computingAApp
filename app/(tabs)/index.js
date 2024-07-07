@@ -16,7 +16,7 @@ export default function HomeScreen() {
   return (
 
    <SafeAreaView style={{flex: 1}}>
-      <View style={{ backgroundColor: "green", alignItems: "center", padding: 10, flexDirection: "row", justifyContent:"center", position:"relative" }}>
+      <View style={{ backgroundColor: "#5e908e", alignItems: "center", padding: 10, flexDirection: "row", justifyContent:"center", position:"relative" }}>
         <View style={{ alignSelf: "flex-start", position:"absolute", left: 20, top:5 }}>
           <Image
             resizeMode="contain"
@@ -39,12 +39,12 @@ export default function HomeScreen() {
 
       <LinearGradient
         // Button Linear Gradient
-        colors={['#C8E6C9', 'white', "#C8E6C9"]}
+        colors={['white', 'white', "white"]}
         style={styles.parentContainer}>
 
 
         <View style={{ alignItems: 'center', justifyContent: "center", marginTop: 20 }}>
-          <Text style={{ color: "green", fontWeight: "bold", fontSize: 30, textAlign:"center"}}>
+          <Text style={{ color: "#5e908e", fontWeight: "bold", fontSize: 30, textAlign:"center"}}>
             Institute of Food Science and Technology
           </Text>
         </View>
@@ -56,7 +56,7 @@ export default function HomeScreen() {
          <View style={{flex: 1, alignItems:"center", justifyContent:"center"}}>
             
 
-            <View style={{ backgroundColor: "green", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
+            <View style={{ backgroundColor: "#5e908e", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
               <Text style={{ color: "#FFFF", textAlign: "center" }}>
                 CONSUMER ACCEPTABILITY
                 OF BAKERY PRODUCTS WITH KAONG SUGAR
@@ -88,7 +88,7 @@ export default function HomeScreen() {
             <Text style={styles.text}>It is made using the newly gathered sap that comes from the kaong plant, which grows along rivers and streams in Upland Cavite.</Text>
 
           </View>
-        <View style={{ backgroundColor: "green", padding: 10, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
+        <View style={{ backgroundColor: "#5e908e", padding: 10, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
           <Text style={{ color: "#FFFF" }}>
             BACHELOR OF FOOD SCIENCE AND TECHNOLOGY
           </Text>
@@ -147,10 +147,10 @@ const styles = StyleSheet.create({
     alignItems: "center", 
     justifyContent: "center", 
     padding: 20, 
-    backgroundColor: "white",
+    backgroundColor: "#C8CFA0",
     borderRadius: 100,
     borderWidth: 1,
-    borderColor: "green"
+    borderColor: "#5e908e"
   },
   text:{
     textAlign:"left"
