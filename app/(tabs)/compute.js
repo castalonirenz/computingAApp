@@ -6,6 +6,7 @@ import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-g
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+
 export default function ComputeScreen() {
     const [arrOne, setArrOne] = useState([]);
     const [arrTwo, setArrTwo] = useState([]);
@@ -23,6 +24,24 @@ export default function ComputeScreen() {
 
     const [sumCountControl, setSumCountControl] = useState(0)
     const [sumCountBest, setCountBest] = useState(0)
+
+
+    const colors = [
+        "#98A6FF",
+        "#E8D99C",
+        "#8F4835",
+        "#131842",
+        "#F2DAB8",
+        "#333C79",
+        "#E97258",
+        "#DE4F45",
+        "#F79150"
+    ];
+
+    function getRandomColor() {
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        return colors[randomIndex];
+    }
 
 
     const typingOne = (v ) => {
@@ -153,13 +172,14 @@ export default function ComputeScreen() {
             // Key is the hedonic rank
            
             // HedonicMeanControl.push((parseFloat(key) / lenghtTotalControl) * (parseFloat(value.count)))
-            HedonicMeanControl.push({k: value.id, count: parseFloat(value.count)})
+            HedonicMeanControl.push({ k: value.id, count: parseFloat(value.count)})
             
             sumOfCountH += parseFloat(value.count)
             // For the pie
-            a.push(value.item)
+            a.push({ ...value.item, ...{ color: getRandomColor()}})
         })
 
+        
         
         
         setSumCountControl(sumOfCountH)
@@ -174,7 +194,7 @@ export default function ComputeScreen() {
             // HedonicMeanBestTreatment.push((parseFloat(key) / arrTwo.length) * (parseFloat(value.item.value)))
             HedonicMeanBestTreatment.push({ k: value.id, count: parseFloat(value.count) })
             sumOfCountB += parseFloat(value.count)
-            b.push(value.item)
+            b.push({ ...value.item, ...{ color: getRandomColor() } })
         })
         setCountBest(sumOfCountB)
         setPieTwo(b)
@@ -265,29 +285,17 @@ export default function ComputeScreen() {
     return (
         <SafeAreaView style={{flex: 1}}>
 
-            <View style={{ backgroundColor: "#5e908e", alignItems: "center", padding: 10, flexDirection: "row", justifyContent: "center", position: "relative" }}>
-                <View style={{ alignSelf: "flex-start", position: "absolute", left: 20, top: 5 }}>
-                    <Image
-                        resizeMode="contain"
-                        style={{ height: 50, width: 50 }}
-                        source={require('../../assets/images/csu-logo.png')} />
-                </View>
+            <View style={{ backgroundColor: "#131842", alignItems: "center", padding: 10, flexDirection: "row", justifyContent: "center", position: "relative" }}>
 
                 <View style={{ marginLeft: 10, alignItems: "center" }}>
-                    <Text style={{ color: "#FFFF" }}>
-                        Cavite State University
-                    </Text>
-                    <Text style={{ color: "#FFFF" }}>
-                        College of Agriculture, Food,
-                    </Text>
-                    <Text style={{ color: "#FFFF" }}>
-                        Environment and Natural Resources
+                    <Text adjustsFontSizeToFit={true} style={{ color: "#FFFF", fontSize: 25, textAlign: "center", fontWeight: "bold" }}>
+                        CONSUMER ACCEPTABILITY CALCULATOR
                     </Text>
                 </View>
             </View>
 
             <LinearGradient
-                colors={['white', 'white', "white"]}
+                colors={['#FBF6E2', '#FBF6E2', "#FBF6E2"]}
                 style={styles.parentContainer}
             >
                 <ScrollView>
@@ -320,7 +328,7 @@ export default function ComputeScreen() {
                                         <View style={{ marginTop: 20 }}>
                                             <View style={styles.row}>
                                                 <View style={styles.column}>
-                                                    <View style={[styles.rowItem, {alignItems:'flex-start'}]}>
+                                                    <View style={[styles.rowItem, {alignItems:'flex-start', borderTopWidth: 1}]}>
                                                         <Text style={styles.text}>Hedonic</Text>
                                                         <Text style={styles.text}>Rank</Text>
                                                     </View>
@@ -338,7 +346,7 @@ export default function ComputeScreen() {
                                                 </View>
 
                                                 <View style={styles.column}>
-                                                    <View style={styles.rowItem}>
+                                                    <View style={[styles.rowItem, { borderTopWidth: 1}]}>
                                                         <Text style={styles.text}>Frequency</Text>
                                                         <Text style={styles.text}>Control</Text>
                                                     </View>
@@ -355,17 +363,17 @@ export default function ComputeScreen() {
                                                 </View>
 
                                                 <View style={styles.column}>
-                                                    <View style={styles.rowItem}>
+                                                    <View style={[styles.rowItem, { borderTopWidth: 1, borderRightWidth: 1}]}>
                                                         <Text style={styles.text}>Percentage</Text>
                                                         <Text style={styles.text}>Control</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrOne).result).map(([key, value], index) => (
-                                                        <View style={styles.rowItem} key={index}>
+                                                        <View style={[styles.rowItem, { borderRightWidth: 1 }]} key={index}>
                                                             <Text style={styles.text}>{value.percentage}</Text>
                                                         </View>
                                                     ))}
 
-                                                    <View style={styles.rowItem}>
+                                                    <View style={[styles.rowItem, {borderRightWidth: 1}]}>
                                                         <Text style={styles.text}>{onePercentage}</Text>
                                                     </View>
                                                 </View>
@@ -380,6 +388,7 @@ export default function ComputeScreen() {
                                                     labelsPosition='mid'
                                                     showValuesAsLabels
                                                     data={pieOne}
+                                                   
                                                 />
                                         </View>
                                             {/* Pie graph group 1 */}
@@ -422,7 +431,7 @@ export default function ComputeScreen() {
                                         <View scrollEnabled style={{ marginTop: 20, }}>
                                             <View style={styles.row}>
                                                 <View style={styles.column}>
-                                                    <View style={[styles.rowItem, { alignItems: 'flex-start' }]}>
+                                                    <View style={[styles.rowItem, { alignItems: 'flex-start', borderTopWidth: 1 }]}>
                                                         <Text adjustsFontSizeToFit={true} style={styles.text}>Hedonic</Text>
                                                         <Text style={styles.text}>Rank</Text>
                                                     </View>
@@ -439,7 +448,7 @@ export default function ComputeScreen() {
                                                 </View>
 
                                                 <View style={styles.column}>
-                                                    <View style={styles.rowItem}>
+                                                    <View style={[styles.rowItem, { borderTopWidth: 1 }]}>
                                                         <Text style={styles.text}>Frequency</Text>
                                                         <Text style={[{ fontSize: 5 }, styles.text]}>Best treatment</Text>
                                                     </View>
@@ -458,17 +467,17 @@ export default function ComputeScreen() {
                                                 </View>
 
                                                 <View style={styles.column}>
-                                                    <View style={styles.rowItem}>
+                                                    <View style={[styles.rowItem, { borderTopWidth: 1, borderRightWidth: 1 }]}>
                                                         <Text style={styles.text}>Percentage</Text>
                                                         <Text style={[{fontSize: 10}, styles.text]}>Best treatment</Text>
                                                     </View>
                                                     {Object.entries(getFrequency(arrTwo).result).map(([key, value], index) => (
-                                                        <View style={styles.rowItem} key={index}>
+                                                        <View style={[styles.rowItem, {borderRightWidth: 1}]} key={index}>
                                                             <Text style={styles.text}>{value.percentage}</Text>
                                                         </View>
                                                     ))}
 
-                                                    <View style={styles.rowItem}>
+                                                    <View style={[styles.rowItem, {borderRightWidth: 1}]}>
                                                         <Text style={styles.text}>{twoPercentage}</Text>
                                                     </View>
 
@@ -528,45 +537,52 @@ export default function ComputeScreen() {
                     </Modal>
 
 
-                    <View style={{ backgroundColor: "#5e908e", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 30 }}>
+                    {/* <View style={{ backgroundColor: "#5e908e", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 30 }}>
                         <Text style={{ color: "#FFFF", textAlign: "center" }}>
                             CONSUMER ACCEPTABILITY
                             OF BAKERY PRODUCTS WITH KAONG SUGAR
 
                         </Text>
-                    </View>
+                    </View> */}
 
 
                     <View style={styles.parentContainer}>
-                        <View >
-                            <Text>Please enter a number</Text>
+
+
+                        <View style={{ flex: 1, borderWidth: 1, padding: 20, borderRadius: 10, backgroundColor:"#131842" }}>
+                            {/* <Text>Please enter a number</Text> */}
+                            <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 20, color:"#ffff" }}>Sample 1 (Control)</Text>
                             <TextInput
                                 value={inputOne}
-                                placeholder='Control'
+                                placeholder='Input responses from consumer acceptability test'
                                 keyboardType='numbers-and-punctuation'
                                 onChangeText={(v) => typingOne(v)}
                                 style={styles.textInputContainer}
                             />
                             <View style={{ marginTop: 30 }}>
                                 <TouchableOpacity style={styles.buttonContainer} onPress={enterInput}>
-                                    <Text>Enter</Text>
+                                    <Text style={{color:"#ffff", fontWeight:"bold"}}>Enter</Text>
                                 </TouchableOpacity>
                             </View>
 
                             {/* LIST */}
-                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#5e908e", padding: 20, flexDirection: "row" }]}>
-                                {arrOne.map((i, k) => (
-                                    <Text style={{color:"white"}}>{k >= 1 ? "," + i : i}</Text>
-                                ))}
+                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFFF", padding: 20, flexDirection: "row" }]}>
+                                {arrOne.length != 0 ? arrOne.map((i, k) => (
+                                    <Text style={{color:"black"}}>{k >= 1 ? "," + i : i}</Text>
+                                )) : <Text style={{ color: "grey" }}>empty</Text>}
                             </View>
                             {/* LIST */}
                         </View>
 
 
-                        <View style={{ flex: 1, marginTop: 50 }}>
-                            <Text>Please enter a number</Text>
+                        {/* <View style={{height: 5, width:"100%", backgroundColor:"black", marginTop: 50}}/> */}
+
+
+                        <View style={{ flex: 1, borderWidth: 1, padding: 20, borderRadius: 10, backgroundColor: "#131842", marginTop: 50 }}>
+                            {/* <Text>Please enter a number</Text> */}
+                            <Text style={{ fontWeight: "bold", fontSize: 20, marginBottom: 20, color:"#ffff" }}>Sample 2 (Best treatment)</Text>
                             <TextInput
-                                placeholder='Best treatment'
+                                placeholder='Input responses from consumer acceptability test'
                                 value={inputTwo}
                                 keyboardType='numbers-and-punctuation'
                                 onChangeText={(v) => typingTwo(v)}
@@ -574,15 +590,15 @@ export default function ComputeScreen() {
                             />
                             <View style={{ marginTop: 30 }}>
                                 <TouchableOpacity style={styles.buttonContainer} onPress={enterInputTwo}>
-                                    <Text>Enter</Text>
+                                    <Text style={{ color: "#ffff", fontWeight: "bold" }}>Enter</Text>
                                 </TouchableOpacity>
                             </View>
 
                             {/* LIST */}
-                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#5e908e", padding: 20, flexDirection: "row" }]}>
-                                {arrTwo.map((i, k) => (
-                                    <Text style={{color: "white"}}>{k >= 1 ? "," + i : i}</Text>
-                                ))}
+                            <View style={[styles.shadowContainer, { marginTop: 10, backgroundColor: "#FFFF", padding: 20, flexDirection: "row" }]}>
+                                {arrTwo.length != 0 ? arrTwo.map((i, k) => (
+                                    <Text style={{color: "black"}}>{k >= 1 ? "," + i : i}</Text>
+                                )) : <Text style={{color:"grey"}}>empty</Text>}
                             </View>
                             {/* LIST */}
 
@@ -595,7 +611,7 @@ export default function ComputeScreen() {
                         <View style={{ marginTop: 20 }}>
 
                             <TouchableOpacity style={styles.buttonContainer} onPress={() => computeNow()}>
-                                <Text>Compute now</Text>
+                                <Text style={{ color: "#ffff", fontWeight: "bold" }}>Compute now</Text>
                             </TouchableOpacity>
 
 
@@ -621,7 +637,6 @@ export default function ComputeScreen() {
 
 const styles = StyleSheet.create({
     textInputContainer: {
-        borderWidth: 1,
         borderRadius: 4,
         width: '100%',
         height: 50,
@@ -634,20 +649,22 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 0,
         width: "100%",
-        alignItems:'center',justifyContent:"center"
+        alignItems:'center',justifyContent:"center",
+        borderColor: "#131842"
     },
     column: {
-        width: "33.33%"
+        width: "33.33%",
+        
     },
     rowItem: {
         // height: 100,
         height: 80,
-        
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomWidth: 1,
-        borderBottomColor: "#5e908e"
+        borderLeftWidth: 1,
+        borderColor:"#131842"
     },
     parentContainer: {
         flex: 1,
@@ -669,13 +686,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         padding: 20,
-        backgroundColor: "#C8CFA0",
+        backgroundColor: "#ef9c66",
         borderRadius: 100,
         borderWidth: 1,
         borderColor: "#5e908e"
     },
     text:{
-        color: "#5E908E",
+        color: "#131842",
         fontSize: 13
     }
 

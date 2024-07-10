@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Consumer Capability",
+    "name": "Consumer Acceptability Calculator",
     "slug": "computingApp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,10 +17,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.renzcasta.computingApp"
+      "package": "com.csu.consumeracceptability"
     },
     "web": {
       "bundler": "metro",

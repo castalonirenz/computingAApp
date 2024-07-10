@@ -15,64 +15,56 @@ export default function HomeScreen() {
 
   return (
 
-   <SafeAreaView style={{flex: 1}}>
-      <View style={{ backgroundColor: "#5e908e", alignItems: "center", padding: 10, flexDirection: "row", justifyContent:"center", position:"relative" }}>
-        <View style={{ alignSelf: "flex-start", position:"absolute", left: 20, top:5 }}>
-          <Image
-            resizeMode="contain"
-            style={{ height: 50, width: 50 }}
-            source={require('../../assets/images/csu-logo.png')} />
-        </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor:"white"}}>
 
+      <View style={{ backgroundColor: "#131842", alignItems: "center", padding: 10, flexDirection: "row", justifyContent: "center", position: "relative" }}>
+        
         <View style={{ marginLeft: 10, alignItems: "center" }}>
-          <Text adjustsFontSizeToFit={true} style={{ color: "#FFFF" }}>
-            Cavite State University
-          </Text>
-          <Text style={{ color: "#FFFF" }}>
-            College of Agriculture, Food,
-          </Text>
-          <Text style={{ color: "#FFFF" }}>
-            Environment and Natural Resources
+          <Text adjustsFontSizeToFit={true} style={{ color: "#FFFF", fontSize: 25,textAlign:"center" , fontWeight:"bold"}}>
+            CONSUMER ACCEPTABILITY CALCULATOR
           </Text>
         </View>
       </View>
 
       <LinearGradient
         // Button Linear Gradient
-        colors={['white', 'white', "white"]}
+        colors={['#FBF6E2', '#FBF6E2', "#FBF6E2"]}
         style={styles.parentContainer}>
 
 
-        <View style={{ alignItems: 'center', justifyContent: "center", marginTop: 20 }}>
-          <Text style={{ color: "#5e908e", fontWeight: "bold", fontSize: 30, textAlign:"center"}}>
-            Institute of Food Science and Technology
-          </Text>
-        </View>
-
-        {/* <ScrollView style={{ flex: 1, padding: 20, backgroundColor: "blue", }}> */}
 
 
 
-         <View style={{flex: 1, alignItems:"center", justifyContent:"center"}}>
+         <View style={{flex: 1, alignItems:"center", }}>
             
 
-            <View style={{ backgroundColor: "#5e908e", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
-              <Text style={{ color: "#FFFF", textAlign: "center" }}>
-                CONSUMER ACCEPTABILITY
-                OF BAKERY PRODUCTS WITH KAONG SUGAR
-
+            <View style={{ backgroundColor: "#ECCEAE", padding: 20, borderRadius: 8, alignItems: "center", justifyContent: 'center', marginTop: 50, width:"90%" }}>
+            <Text style={{ color: "#131842", textAlign: "left" }}>
+              This application is for the computation of the <Text style={{ fontWeight: "bold", color:"#131842"}}>Consumer Acceptability of Bakery Products made with Kaong sugar as Sweetener</Text>
+              This can be used to compute for the mean scores and frequency and to generate a graph for the results. Consumer acceptability assesses the degree of liking of a product based on the overall sensory appeal. 
               </Text>
+
             </View>
 
-            <View style={{ marginTop: 20, height: 70, width:"70%" }}>
+            <View style={{ marginTop: 50, height: 70, width:"70%" }}>
               <TouchableOpacity onPress={() => router.navigate('/compute')} style={[styles.buttonContainer]}>
 
-                <Text>
+                <Text style={{color:"#FFFF", fontWeight:"bold"}}>
                   Compute
                 </Text>
               </TouchableOpacity>
 
             </View>
+
+          <View style={{ justifyContent: "center", width: "90%", marginLeft: "5%", overflow: "hidden", marginTop: 50 }}>
+            
+            <Text style={[styles.text, { fontWeight: "bold", color:"#ef9c66", fontSize: 20}]}>Did you know?</Text>
+
+            <Text  style={[styles.text, {marginTop: 20}]}>Kaong Sugar is an all-natural sweetener alternative.</Text>
+            <Text style={styles.text}>It is highly nutritious and has a low glycemic index, making it ideal for diabetics and dieters.</Text>
+            <Text style={styles.text}>It is made using the newly gathered sap that comes from the kaong plant, which grows along rivers and streams in Upland Cavite.</Text>
+
+          </View>
          </View>
 
      
@@ -81,20 +73,35 @@ export default function HomeScreen() {
 
         {/* </ScrollView> */}
 
-             <View style={{ justifyContent: "center",  width: "90%", marginLeft:"5%", overflow:"hidden" }}>
-
-            <Text style={styles.text}>Kaong Sugar is an all-natural sweetener alternative.</Text>
-            <Text style={styles.text}>It is highly nutritious and has a low glycemic index, making it ideal for diabetics and dieters.</Text>
-            <Text style={styles.text}>It is made using the newly gathered sap that comes from the kaong plant, which grows along rivers and streams in Upland Cavite.</Text>
-
-          </View>
-        <View style={{ backgroundColor: "#5e908e", padding: 10, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
+        
+        {/* <View style={{ backgroundColor: "#5e908e", padding: 10, alignItems: "center", justifyContent: 'center', marginTop: 50 }}>
           <Text style={{ color: "#FFFF", textAlign:"center" }}>
             BACHELOR OF SCIENCE IN FOOD AND TECHNOLOGY
           </Text>
           <Text style={{ color: "#FFFF" , textAlign:"center"}}>
             2023 - 2024
           </Text>
+        </View> */}
+
+        <View style={{ backgroundColor: "#131842", alignItems: "center", padding: 10, flexDirection: "row", justifyContent: "center", position: "relative" }}>
+          <View style={{ alignSelf: "flex-start", position: "absolute", left: 20, top: 5 }}>
+            {/* <Image
+              resizeMode="contain"
+              style={{ height: 50, width: 50 }}
+              source={require('../../assets/images/csu-logo.png')} /> */}
+          </View>
+
+          <View style={{ marginLeft: 10, alignItems: "center" }}>
+            <Text adjustsFontSizeToFit={true} style={{ color: "#FFFF", fontSize: 25 }}>
+              Cavite State University
+            </Text>
+            <Text style={{ color: "#FFFF", marginTop: 10 }}>
+              College of Agriculture, Food, Environment and Natural Resources
+            </Text>
+            <Text style={{ color: "#FFFF" }}>
+              Institute of Food Science and Technology
+            </Text>
+          </View>
         </View>
       </LinearGradient>
    </SafeAreaView>
@@ -147,14 +154,14 @@ const styles = StyleSheet.create({
     alignItems: "center", 
     justifyContent: "center", 
     padding: 20, 
-    backgroundColor: "#C8CFA0",
+    backgroundColor: "#ef9c66",
     borderRadius: 100,
-    borderWidth: 1,
-    borderColor: "#5e908e"
+  
   },
   text:{
     textAlign:"left",
-    fontSize: 12
+    fontSize: 16,
+    color: "#131842"
   },
   textSize:[
 
