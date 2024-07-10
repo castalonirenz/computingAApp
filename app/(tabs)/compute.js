@@ -69,9 +69,10 @@ export default function ComputeScreen() {
             if(array1.length == 1){
                 const updatedArr = [...arrOne, inputOne];
                 setArrOne(updatedArr);
-
-
-                setOnePercentage(Math.round(getFrequency(arrOne).sum) + "%")
+                
+                console.log(Math.round(getFrequency(arrOne).sum))
+                
+                // setOnePercentage(Math.round(getFrequency(arrOne).sum) + "%")
                 setInputOne('');
             }
             
@@ -84,7 +85,7 @@ export default function ComputeScreen() {
                     })
       
                     setArrOne(updatedArr);
-                setOnePercentage(Math.round(getFrequency(arrOne).sum) + "%")
+                // setOnePercentage(Math.round(getFrequency(arrOne).sum) + "%")
                 setInputOne('');
 
             }
@@ -176,7 +177,7 @@ export default function ComputeScreen() {
             
             sumOfCountH += parseFloat(value.count)
             // For the pie
-            a.push({ ...value.item, ...{ color: getRandomColor()}})
+            a.push({ ...value.item, ...{ color: getRandomColor(), }})
         })
 
         
@@ -214,6 +215,9 @@ export default function ComputeScreen() {
             meanT += (parseFloat(i.count) / sumOfCountB) * i.k
         })
         
+
+        setOnePercentage(Math.round(getFrequency(arrOne).sum) + "%")
+        setTwoPercentage(Math.round(getFrequency(arrTwo).sum) + "%")
         
         setOneMean(meanO.toFixed(2))
         setTwoMean(meanT.toFixed(2))
@@ -269,6 +273,7 @@ export default function ComputeScreen() {
         const dataArray = Object.values(result);
         dataArray.sort((a, b) => b.id - a.id);
         
+        
         let final = {
             result: dataArray,
             sum: sumOfPercentages,
@@ -321,7 +326,7 @@ export default function ComputeScreen() {
 
 
                                         {/* Group 1 */}
-                                        <Text style={[{ fontWeight: "bold", }, styles.text]}>Control</Text>
+                                        <Text style={[{ fontWeight: "bold", }, styles.text, {fontSize: 20}]}>Control</Text>
                                         <View style={{ marginLeft: 10 }}>
                                             <Text style={styles.text}>Mean for this is x̄ = <Text style={{ fontWeight: "bold", fontSize: 20 }}>{oneMean}</Text></Text>
                                         </View>
@@ -388,6 +393,7 @@ export default function ComputeScreen() {
                                                     labelsPosition='mid'
                                                     showValuesAsLabels
                                                     data={pieOne}
+                                                    textColor='#FFFF'
                                                    
                                                 />
                                         </View>
@@ -423,7 +429,7 @@ export default function ComputeScreen() {
 
 
                                         {/* Group 2 */}
-                                        <Text style={[{ fontWeight: "bold", marginTop: 20 }, styles.text]}>Best treatment</Text>
+                                        <Text style={[{ fontWeight: "bold", marginTop: 20 }, styles.text, {fontSize: 20}]}>Best treatment</Text>
 
                                         <View style={{ marginLeft: 10 }}>
                                             <Text style={styles.text}> Mean for this is x̄ =<Text style={{ fontWeight: "bold", fontSize: 20 }}>{twoMean}</Text></Text>
